@@ -21,8 +21,8 @@ export default function SkipNav({ mainId }: SkipNavProps) {
     <a
       id="skip-nav"
       href={`#${mainId}`}
-      className="absolute left-0 transform -translate-y-full p-1 text-sm underline
-        focus:z-10 focus:transition-transform focus:bg-accent-focus focus:text-accent-content focus:translate-y-0"
+      className="bg-base-100 text-base-content p-3 text-sm absolute left-4 transform -translate-y-full 
+        focus:z-10 focus:transition-transform focus:translate-y-0"
     >
       Skip to main content
     </a>

@@ -2,7 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
-import Header from './components/header';
+import SkipNav from './components/skip-nav';
+import Header from './components/header/header';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -12,11 +13,15 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  const mainId = 'main-content';
   return (
-    <html lang="en">
+    <html lang="en" data-theme={'emerald'}>
       <body className={inter.className}>
+        <SkipNav mainId={mainId} />
         <Header />
-        <main className="flex flex-col grow items-center">{children}</main>
+        <main id={mainId} className="flex flex-col grow items-center">
+          {children}
+        </main>
       </body>
     </html>
   );

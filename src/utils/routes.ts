@@ -1,6 +1,10 @@
 const routes = {
   home: '/',
+  profile: '/profile',
+  settings: '/settings',
+  logout: 'logout',
   dashboard: '/dashboard',
-  settings: '/settings'
+  ledger: '/ledger',
+  budget: '/budget'
 };
 export default routes;

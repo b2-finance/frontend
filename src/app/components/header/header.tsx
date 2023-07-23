@@ -51,7 +51,7 @@ export default function Header() {
           </ul>
         </div>
         <div className="navbar-end">
-          <ProfileMenu links={profileLinks} ringOffsetColor="primary" />
+          <ProfileMenu links={profileLinks} />
         </div>
       </nav>
     </header>

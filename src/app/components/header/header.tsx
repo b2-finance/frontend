@@ -18,6 +18,12 @@ const profileLinks: ExtendedLinkProps[] = [
   { display: 'Logout', href: routes.logout }
 ];
 
+/**
+ * The header bar of the application. Contains the navbar, profile, settings,
+ * and a hamburger menu that is visible only in mobile screens.
+ *
+ * @returns A JSX Element.
+ */
 export default function Header() {
   return (
     <header className="bg-primary">

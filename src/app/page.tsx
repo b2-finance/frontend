@@ -1,3 +1,4 @@
-export default function Home() {
-  return <h1 className="p-24">Hello</h1>;
+//TODO: Implement
+export default function HomePage() {
+  return <h1>Home</h1>;
 }

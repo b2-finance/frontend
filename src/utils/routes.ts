@@ -2,7 +2,7 @@ const routes = {
   home: '/',
   profile: '/profile',
   settings: '/settings',
-  logout: 'logout',
+  logout: '/logout',
   dashboard: '/dashboard',
   ledger: '/ledger',
   budget: '/budget'

@@ -18,17 +18,16 @@ export interface ProfileMenuProps {
  */
 export default function ProfileMenu({ links }: ProfileMenuProps) {
   return (
-    <div className="dropdown dropdown-end">
-      <label
-        tabIndex={0}
-        className="btn btn-ghost btn-circle avatar placeholder"
-      >
+    <DropdownMenu
+      links={links}
+      rightAlign
+      buttonCss="btn btn-ghost btn-circle avatar placeholder"
+      // TODO: Make this dynamic. Need to fetch user data (including profile photo) from this component.
+      button={
         <div className="h-10 bg-neutral rounded-full">
-          {/* TODO: Make this dynamic. Need to fetch user data (including profile photo) from this component. */}
           <span className="text-neutral-content">JP</span>
         </div>
-      </label>
-      <DropdownMenu links={links} />
-    </div>
+      }
+    />
   );
 }

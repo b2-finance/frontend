@@ -1,8 +1,7 @@
-'use client';
 import routes from '@/utils/routes';
-import Link from 'next/link';
 import HamburgerMenu from './menus/hamburger-menu';
 import ProfileMenu from './menus/profile-menu';
+import SelfBlurringLink from './menus/self-blurring-link';
 import { ExtendedLinkProps } from './menus/dropdown-menu';
 
 const navLinks: ExtendedLinkProps[] = [
@@ -37,15 +36,7 @@ export default function Header() {
           <ul className="menu hidden tablet:menu-horizontal text-primary-content">
             {navLinks?.map(({ display, href }) => (
               <li key={display}>
-                <Link
-                  id={`${display}-nav-link`}
-                  href={href}
-                  onClick={(event) => {
-                    document.getElementById(event.currentTarget.id)?.blur();
-                  }}
-                >
-                  {display}
-                </Link>
+                <SelfBlurringLink href={href}>{display}</SelfBlurringLink>
               </li>
             ))}
           </ul>

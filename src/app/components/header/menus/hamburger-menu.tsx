@@ -18,11 +18,10 @@ export interface HamburgerMenuProps {
  */
 export default function HamburgerMenu({ links }: HamburgerMenuProps) {
   return (
-    <div className="dropdown">
-      <label
-        tabIndex={0}
-        className="btn btn-ghost btn-circle text-primary-content"
-      >
+    <DropdownMenu
+      links={links}
+      buttonCss="btn btn-ghost btn-circle text-primary-content"
+      button={
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"
@@ -37,8 +36,7 @@ export default function HamburgerMenu({ links }: HamburgerMenuProps) {
             d="M4 6h16M4 12h16M4 18h7"
           />
         </svg>
-      </label>
-      <DropdownMenu links={links} />
-    </div>
+      }
+    />
   );
 }

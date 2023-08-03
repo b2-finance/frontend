@@ -9,7 +9,8 @@
   "scripts": {
     "format": "prettier --write \"src/**/*.ts{,x}\" --ignore-path .gitignore .",
     "lint": "next lint",
-    "test": "jest --verbose --watch",
+    "test": "jest --verbose",
+    "test:watch": "jest --verbose --watch",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"

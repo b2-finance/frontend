@@ -26,22 +26,22 @@ describe('SkipNav', () => {
   // });
 
   // TODO: This is not working. document.activeElement is anchor, even after clicking.
-  //   it('should move focus to main element when clicked', async () => {
-  //     const user = userEvent.setup();
-  //     const mainId = 'test-main-id';
+  // it('should move focus to main element when clicked', async () => {
+  //   const user = userEvent.setup();
+  //   const mainId = 'test-main-id';
 
-  //     render(
-  //       <div>
-  //         <SkipNav mainId={mainId} />
-  //         <main tabIndex={0} id={mainId} />
-  //       </div>
-  //     );
-  //     const anchor = screen.getByRole('link', {
-  //       name: 'Skip to main content'
-  //     });
-  //     const main = screen.getByRole('main');
-
-  //     await user.click(anchor);
-  //     await waitFor(() => expect(document.activeElement).toEqual(main));
+  //   render(
+  //     <div>
+  //       <SkipNav mainId={mainId} />
+  //       <main tabIndex={0} id={mainId} />
+  //     </div>
+  //   );
+  //   const anchor = screen.getByRole('link', {
+  //     name: 'Skip to main content'
   //   });
+  //   const main = screen.getByRole('main');
+
+  //   await user.click(anchor);
+  //   await waitFor(() => expect(document.activeElement).toEqual(main));
+  // });
 });

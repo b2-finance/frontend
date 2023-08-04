@@ -1,11 +1,6 @@
-import { LinkProps } from 'next/link';
 import { ReactNode } from 'react';
 import SelfBlurringLink from './self-blurring-link';
-
-/**
- * Extension of next/link LinkProps to provide a display name for the link.
- */
-export type ExtendedLinkProps = LinkProps & { display: string };
+import { NavigationLinkProps } from '@/utils/types';
 
 /**
  * Props for the {@link DropdownMenu} component.
@@ -30,7 +25,7 @@ export interface DropdownMenuProps {
   /**
    * Navigation links.
    */
-  links?: ExtendedLinkProps[];
+  links?: NavigationLinkProps[];
   /**
    * Aligns the dropdown menu to the right of the button.
    *

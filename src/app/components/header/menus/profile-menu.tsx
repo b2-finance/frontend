@@ -1,25 +1,18 @@
-import DropdownMenu, { ExtendedLinkProps } from './dropdown-menu';
+'use client';
 
-/**
- * Props for the {@link ProfileMenu} component.
- */
-export interface ProfileMenuProps {
-  /**
-   * Navigation links.
-   */
-  links: ExtendedLinkProps[];
-}
+import DropdownMenu from './dropdown-menu';
+import useHeaderContext from '../header-context';
 
 /**
  * A dropdown menu featuring the user's profile photo.
  *
- * @param props {@link ProfileMenuProps}
  * @returns A JSX Element.
  */
-export default function ProfileMenu({ links }: ProfileMenuProps) {
+export default function ProfileMenu() {
+  const { profileLinks } = useHeaderContext();
   return (
     <DropdownMenu
-      links={links}
+      links={profileLinks}
       rightAlign
       buttonCss="btn btn-ghost btn-circle avatar placeholder"
       // TODO: Make this dynamic. Need to fetch user data (including profile photo) from this component.

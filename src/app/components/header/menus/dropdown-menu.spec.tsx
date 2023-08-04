@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import DropdownMenu, { ExtendedLinkProps } from './dropdown-menu';
+import DropdownMenu from './dropdown-menu';
+import { NavigationLinkProps } from '@/utils/types';
 
 describe('DropdownMenu', () => {
   it('should render a list of links', () => {
-    const links: ExtendedLinkProps[] = [
-      { display: '1', href: '/' },
-      { display: '2', href: '/' }
+    const links: NavigationLinkProps[] = [
+      { display: '1', href: '/', authMode: 'both' },
+      { display: '2', href: '/', authMode: 'both' }
     ];
     render(<DropdownMenu button={<button>Hello</button>} links={links} />);
 
@@ -15,9 +16,9 @@ describe('DropdownMenu', () => {
   });
 
   it('should render all links', () => {
-    const links: ExtendedLinkProps[] = [
-      { display: '1', href: '/' },
-      { display: '2', href: '/' }
+    const links: NavigationLinkProps[] = [
+      { display: '1', href: '/', authMode: 'both' },
+      { display: '2', href: '/', authMode: 'both' }
     ];
     render(<DropdownMenu button={<button>Hello</button>} links={links} />);
 
@@ -29,9 +30,9 @@ describe('DropdownMenu', () => {
   });
 
   it('should render the button', () => {
-    const links: ExtendedLinkProps[] = [
-      { display: '1', href: '/' },
-      { display: '2', href: '/' }
+    const links: NavigationLinkProps[] = [
+      { display: '1', href: '/', authMode: 'both' },
+      { display: '2', href: '/', authMode: 'both' }
     ];
     render(<DropdownMenu button={<button>Hello</button>} links={links} />);
 

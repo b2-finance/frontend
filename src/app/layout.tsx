@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 import SkipNav from './components/skip-nav';
 import Header from './components/header/header';
+import { AppContextProvider } from './app-context';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,11 +18,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" data-theme={'emerald'}>
       <body className={inter.className}>
-        <SkipNav mainId={mainId} />
-        <Header />
-        <main id={mainId} className="flex flex-col grow items-center">
-          {children}
-        </main>
+        <AppContextProvider>
+          <SkipNav mainId={mainId} />
+          <Header />
+          <main id={mainId} className="flex flex-col grow items-center">
+            {children}
+          </main>
+        </AppContextProvider>
       </body>
     </html>
   );

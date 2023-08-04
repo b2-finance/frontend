@@ -1,25 +1,18 @@
-import DropdownMenu, { ExtendedLinkProps } from './dropdown-menu';
+'use client';
 
-/**
- * Props for the {@link HamburgerMenu} component.
- */
-export interface HamburgerMenuProps {
-  /**
-   * Navigation links.
-   */
-  links: ExtendedLinkProps[];
-}
+import DropdownMenu from './dropdown-menu';
+import useHeaderContext from '../header-context';
 
 /**
  * A hamburger navigation menu.
  *
- * @param props {@link HamburgerMenuProps}
  * @returns A JSX Element.
  */
-export default function HamburgerMenu({ links }: HamburgerMenuProps) {
+export default function HamburgerMenu() {
+  const { navLinks } = useHeaderContext();
   return (
     <DropdownMenu
-      links={links}
+      links={navLinks}
       buttonCss="btn btn-ghost btn-circle text-primary-content"
       button={
         <svg

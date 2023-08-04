@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import DropdownMenu from './dropdown-menu';
 import { NavigationLinkProps } from '@/utils/types';
+import userEvent from '@testing-library/user-event';
 
 describe('DropdownMenu', () => {
   it('should render a list of links', () => {
@@ -38,5 +39,17 @@ describe('DropdownMenu', () => {
 
     const button = screen.getByText('Hello');
     expect(button).toBeInTheDocument();
+  });
+
+  it('should not render a menu after clicked if there are no links', async () => {
+    const links: NavigationLinkProps[] = [];
+    const user = userEvent.setup();
+
+    render(<DropdownMenu button={<button>Hello</button>} links={links} />);
+
+    const button = screen.getByText('Hello');
+    await user.click(button);
+
+    await waitFor(() => expect(screen.queryByRole('list')).toBeNull());
   });
 });

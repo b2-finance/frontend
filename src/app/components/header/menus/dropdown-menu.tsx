@@ -53,13 +53,15 @@ export default function DropdownMenu({
       <label tabIndex={0} className={buttonCss}>
         {button}
       </label>
-      <ul className="dropdown-content z-[1] menu menu-sm mt-3 p-2 shadow bg-base-100 rounded-box">
-        {links?.map(({ display, href }) => (
-          <li key={display}>
-            <SelfBlurringLink href={href}>{display}</SelfBlurringLink>
-          </li>
-        ))}
-      </ul>
+      {links?.length ? (
+        <ul className="dropdown-content z-[1] menu menu-sm mt-3 p-2 shadow bg-base-100 rounded-box">
+          {links?.map(({ display, href }) => (
+            <li key={display}>
+              <SelfBlurringLink href={href}>{display}</SelfBlurringLink>
+            </li>
+          ))}
+        </ul>
+      ) : undefined}
     </div>
   );
 }

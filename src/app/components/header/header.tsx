@@ -1,4 +1,3 @@
-import routes from '@/utils/routes';
 import HamburgerMenu from './menus/hamburger-menu';
 import ProfileMenu from './menus/profile-menu';
 import { HeaderContextProvider } from './header-context';

@@ -4,23 +4,37 @@ import ProfileMenu from './profile-menu';
 import { NavigationLinkProps } from '@/utils/types';
 import { HeaderContext } from '../header-context';
 import { ReactNode } from 'react';
+import { AppContext } from '@/app/app-context';
 
 const TestContainer = ({
+  authenticated,
   profileLinks,
   children
 }: {
+  authenticated: boolean;
   profileLinks: NavigationLinkProps[];
   children: ReactNode;
 }) => {
   return (
-    <HeaderContext.Provider
+    <AppContext.Provider
       value={{
-        navLinks: [],
-        profileLinks
+        userId: '',
+        setUserId: () => {},
+        access: { token: '', expiresAt: new Date(0) },
+        setAccess: () => {},
+        authenticated,
+        setAuthenticated: () => {}
       }}
     >
-      {children}
-    </HeaderContext.Provider>
+      <HeaderContext.Provider
+        value={{
+          navLinks: [],
+          profileLinks
+        }}
+      >
+        {children}
+      </HeaderContext.Provider>
+    </AppContext.Provider>
   );
 };
 
@@ -31,7 +45,7 @@ describe('ProfileMenu', () => {
       { display: '2', href: '/', authMode: 'both' }
     ];
     render(
-      <TestContainer profileLinks={profileLinks}>
+      <TestContainer authenticated={true} profileLinks={profileLinks}>
         <ProfileMenu />
       </TestContainer>
     );
@@ -44,5 +58,24 @@ describe('ProfileMenu', () => {
 
     expect(link1).toBeInTheDocument();
     expect(link2).toBeInTheDocument();
+  });
+
+  it.each([
+    ['should render when user is logged in', true],
+    ['should not render when user is logged out', false]
+  ])('%s', (_: string, authenticated: boolean) => {
+    const profileLinks: NavigationLinkProps[] = [
+      { display: '1', href: '/', authMode: 'both' },
+      { display: '2', href: '/', authMode: 'both' }
+    ];
+    render(
+      <TestContainer authenticated={authenticated} profileLinks={profileLinks}>
+        <ProfileMenu />
+      </TestContainer>
+    );
+    const initials = screen.queryByText('JP');
+
+    if (authenticated) expect(initials).toBeInTheDocument();
+    else expect(initials).toBeNull();
   });
 });

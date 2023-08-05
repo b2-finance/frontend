@@ -15,13 +15,14 @@ const ALL_NAV_LINKS: NavigationLinkProps[] = [
   { display: 'Home', href: routes.home, authMode: 'noAuth' },
   { display: 'Dashboard', href: routes.dashboard, authMode: 'auth' },
   { display: 'Ledger', href: routes.ledger, authMode: 'auth' },
-  { display: 'Budget', href: routes.budget, authMode: 'auth' }
+  { display: 'Budget', href: routes.budget, authMode: 'auth' },
+  { display: 'Log In', href: routes.login, authMode: 'noAuth' }
 ];
 
 const ALL_PROFILE_LINKS: NavigationLinkProps[] = [
   { display: 'Profile', href: routes.profile, authMode: 'auth' },
   { display: 'Settings', href: routes.settings, authMode: 'auth' },
-  { display: 'Logout', href: routes.logout, authMode: 'auth' }
+  { display: 'Log Out', href: routes.logout, authMode: 'auth' }
 ];
 
 /**

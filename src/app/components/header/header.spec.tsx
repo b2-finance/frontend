@@ -16,5 +16,8 @@ describe('Header', () => {
   });
 
   // TODO: Implement this.
-  // it('should hide hamburger menu in screen sizes >= 640px', () => {});
+  // it('should hide the nav-menu when screen size < 640px', () => {});
+
+  // TODO: Implement this.
+  // it('should hide hamburger-menu in screen sizes >= 640px', () => {});
 });

@@ -1,7 +1,7 @@
+import NavMenu from './menus/nav-menu';
 import HamburgerMenu from './menus/hamburger-menu';
 import ProfileMenu from './menus/profile-menu';
 import { HeaderContextProvider } from './header-context';
-import NavLinkContainer from './nav-link-container';
 
 /**
  * The header bar of the application. Contains the navbar, profile, settings,
@@ -19,8 +19,8 @@ export default function Header() {
               <HamburgerMenu />
             </div>
           </div>
-          <div className="navbar-center">
-            <NavLinkContainer />
+          <div className="navbar-center hidden tablet:inline-flex">
+            <NavMenu />
           </div>
           <div className="navbar-end">
             <ProfileMenu />

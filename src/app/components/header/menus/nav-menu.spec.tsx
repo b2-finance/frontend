@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import NavLinkContainer from './nav-link-container';
+import NavMenu from './nav-menu';
 import { NavigationLinkProps } from '@/utils/types';
-import { HeaderContext } from './header-context';
+import { HeaderContext } from '../header-context';
 import { ReactNode } from 'react';
 
 const TestContainer = ({
@@ -24,7 +24,7 @@ const TestContainer = ({
   );
 };
 
-describe('NavLinkContainer', () => {
+describe('NavMenu', () => {
   it('should render all links', () => {
     const navLinks: NavigationLinkProps[] = [
       { display: '1', href: '/', authMode: 'both' },
@@ -32,7 +32,7 @@ describe('NavLinkContainer', () => {
     ];
     render(
       <TestContainer navLinks={navLinks}>
-        <NavLinkContainer />
+        <NavMenu />
       </TestContainer>
     );
     const link1 = screen.getByRole('link', {

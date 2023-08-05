@@ -34,13 +34,13 @@ export interface FormSliderProps {
 }
 
 /**
- * Toggles between displaying two forms. While in the "open"/"closed" state,
- * the `openFrom`/`closedForm` is displayed on the right/left side, respectively,
- * with a button on the opposite side for toggling between the forms. In mobile
- * views, the forms are positioned vertically (one on top of the other) with the
- * "open" state corresponding to the bottom form being exposed. In tablet and
- * wider views, the forms are positioned side-by-side with the "open" state
- * corresponding to the right-side form being exposed.
+ * Toggles between displaying two forms. While in the "open"/"closed" state, the
+ * `openFrom`/`closedForm` is displayed on the right/left side, respectively, with
+ * a button on the opposite side for toggling between the forms. In mobile views,
+ * the forms are stacked vertically (one on top of the other) with the "open" state
+ * corresponding to the bottom form being exposed. In tablet and wider views, the
+ * forms are positioned side-by-side with the "open" state corresponding to the
+ * right-side form being exposed.
  *
  * @param props {@link FormSliderProps}
  * @returns A JSX element.

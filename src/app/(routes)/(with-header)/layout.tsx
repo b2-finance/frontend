@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import SkipNav from '@/app/components/skip-nav';
+import SkipNav from '@/app/components/misc/skip-nav';
 import Header from '../../components/header/header';
 
 export default function AppLayout({ children }: { children: ReactNode }) {

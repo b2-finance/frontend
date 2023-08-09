@@ -86,6 +86,17 @@ export default function AuthFormContainer({
             ))}
           </div>
         )}
+        {switchAuthForm && (
+          <div className="flex justify-center label-text-alt">
+            {switchAuthForm.prompt}&nbsp;
+            <Link
+              href={switchAuthForm.route}
+              className="label-text-alt link link-hover text-secondary"
+            >
+              {switchAuthForm.linkLabel}
+            </Link>
+          </div>
+        )}
         <div>{children}</div>
         <div className="form-control">
           <button
@@ -98,17 +109,6 @@ export default function AuthFormContainer({
             {submit.label}
           </button>
         </div>
-        {switchAuthForm && (
-          <div className="flex justify-center label-text-alt">
-            {switchAuthForm.prompt}&nbsp;
-            <Link
-              href={switchAuthForm.route}
-              className="label-text-alt link link-hover text-secondary"
-            >
-              {switchAuthForm.linkLabel}
-            </Link>
-          </div>
-        )}
       </div>
     </div>
   );

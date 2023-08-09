@@ -90,6 +90,7 @@ export default function LoginForm() {
           />
         </div>
         <label className="label flex justify-end">
+          {/* TODO: Add forgot password page route. */}
           <Link href="" className="label-text-alt link link-hover">
             Forgot Password?
           </Link>

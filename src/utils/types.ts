@@ -14,11 +14,11 @@ export type AuthMode = 'auth' | 'noAuth' | 'both';
  */
 export type NavigationLinkProps = LinkProps & {
   /**
-   * The label displayed on the screen
+   * The label displayed on the screen.
    */
   display: string;
   /**
-   * Specifies under which authentication states the link should be rendered
+   * Specifies under which authentication states the link should be rendered.
    */
   authMode: AuthMode;
 };
@@ -29,4 +29,21 @@ export type NavigationLinkProps = LinkProps & {
 export interface Access {
   token: string;
   expiresAt: Date;
+}
+
+/**
+ * Attributes required to register a new user with the application.
+ */
+export interface SignUpDto {
+  username: string;
+  email: string;
+  password: string;
+}
+
+/**
+ * Credentials required to sign into the application.
+ */
+export interface SignInDto {
+  username: string;
+  password: string;
 }

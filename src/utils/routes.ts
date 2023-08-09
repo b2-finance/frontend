@@ -4,6 +4,7 @@ const routes = {
   settings: '/settings',
   login: '/login',
   logout: '/logout',
+  signup: '/signup',
   dashboard: '/dashboard',
   ledger: '/ledger',
   budget: '/budget'

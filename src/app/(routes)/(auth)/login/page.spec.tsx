@@ -16,7 +16,7 @@ describe('LoginPage', () => {
     expect(logo).toHaveAttribute('href', routes.home);
   });
 
-  it('should render a signup form', () => {
+  it('should render a login form', () => {
     render(<LoginPage />);
     const form = screen.getByRole('heading', { name: 'Log In' });
     expect(form).toBeInTheDocument();

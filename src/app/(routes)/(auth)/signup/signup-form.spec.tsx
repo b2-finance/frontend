@@ -1,7 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SignupForm from './signup-form';
+import { SignUpDto } from '@/utils/types';
 import routes from '@/utils/routes';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -9,20 +11,37 @@ jest.mock('next/navigation', () => ({
   })
 }));
 
-// FIXME: This is not working
-// @see https://stackoverflow.com/questions/65270255/mocking-react-custom-hook-with-jest
-// jest.mock('../../../../utils/hooks/use-form-validation', () => ({
-//   useFormValidation: () => ({
-//     __esModule: true,
-//     default: () => ({
-//       fieldState: {},
-//       handleFieldChange: () => {},
-//       validateFields: () => {}
-//     })
-//   })
-// }));
+let mockFieldState = {
+  email: { value: 'email' },
+  username: { value: 'username' },
+  password: { value: 'password' }
+};
+let mockHandleFieldChange = jest.fn();
+let mockValidateFields = jest.fn();
+
+// See https://stackoverflow.com/questions/65270255/mocking-react-custom-hook-with-jest
+jest.mock('../../../../utils/hooks/use-form-validation', () => ({
+  __esModule: true,
+  default: () => ({
+    fieldState: mockFieldState,
+    handleFieldChange: mockHandleFieldChange,
+    validateFields: mockValidateFields
+  })
+}));
+
+const mockSignup = jest.fn();
+jest.mock('../../../../utils/hooks/use-auth', () => ({
+  __esModule: true,
+  default: () => ({
+    signup: mockSignup
+  })
+}));
 
 describe('SignupForm', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('should render a Sign Up header', () => {
     render(<SignupForm />);
     const header = screen.getByRole('heading', { name: 'Sign Up' });
@@ -60,36 +79,45 @@ describe('SignupForm', () => {
     expect(link).toHaveAttribute('href', routes.login);
   });
 
-  // FIXME: This is not working. Having trouble mocking the use-form-validation hook
-  // it('should call apiAuth.signup with expected arguments when submit clicked', async () => {
-  //   const signUpMock = jest.spyOn(authApi, 'signUp').mockResolvedValue({});
-  //   const user = userEvent.setup();
+  it('should call useAuth.signup when submit clicked', async () => {
+    const user = userEvent.setup();
+    mockValidateFields.mockReturnValue(null);
 
-  //   const signUpDto: SignUpDto = {
-  //     email: 'a@email.com',
-  //     username: 'abc',
-  //     password: 'Abcdefghij1!'
-  //   };
+    const signUpDto: SignUpDto = {
+      email: mockFieldState.email.value,
+      username: mockFieldState.username.value,
+      password: mockFieldState.password.value
+    };
 
-  //   render(<SignupForm />);
+    render(<SignupForm />);
 
-  //   const submit = screen.getByRole('button', { name: 'Create Account' });
-  //   const email = screen.getByPlaceholderText('Email');
-  //   const username = screen.getByPlaceholderText('Username');
-  //   const password = screen.getByPlaceholderText('Password');
+    const email = screen.getByPlaceholderText('Email');
+    const username = screen.getByPlaceholderText('Username');
+    const password = screen.getByPlaceholderText('Password');
+    const submit = screen.getByRole('button', { name: 'Create Account' });
 
-  //   await user.type(email, signUpDto.email);
-  //   await user.type(username, signUpDto.username);
-  //   await user.type(password, signUpDto.password);
-  //   await user.click(submit);
+    await user.type(email, signUpDto.email);
+    await user.type(username, signUpDto.username);
+    await user.type(password, signUpDto.password);
+    await user.click(submit);
 
-  //   expect(signUpMock).toHaveBeenCalledWith(signUpDto);
-  // });
+    expect(mockSignup).toHaveBeenCalledTimes(1);
+  });
 
-  // TODO: Implement these (user it.each to test multiple combinations in one test)
-  // it('should display error when invalid email is submitted', () => {});
-  // it('should display error when invalid username is submitted', () => {});
-  // it('should display error when invalid password is submitted', () => {});
-  // it('should display error when all submitted fields are invalid', () => {});
-  // it('should display error when API returns an error', () => {});
+  it('should display error when invalid field(s) are submitted', async () => {
+    const user = userEvent.setup();
+    const errors = ['error1', 'error2'];
+    mockValidateFields.mockReturnValue(errors);
+
+    render(<SignupForm />);
+
+    const submit = screen.getByRole('button', { name: 'Create Account' });
+    await user.click(submit);
+
+    const error1 = screen.getByText(errors[0]);
+    const error2 = screen.getByText(errors[1]);
+
+    expect(error1).toBeInTheDocument();
+    expect(error2).toBeInTheDocument();
+  });
 });

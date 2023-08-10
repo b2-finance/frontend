@@ -1,7 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LoginForm from './login-form';
+import { SignInDto } from '@/utils/types';
 import routes from '@/utils/routes';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -9,20 +11,36 @@ jest.mock('next/navigation', () => ({
   })
 }));
 
-// FIXME: This is not working
-// @see https://stackoverflow.com/questions/65270255/mocking-react-custom-hook-with-jest
-// jest.mock('../../../../utils/hooks/use-form-validation', () => ({
-//   useFormValidation: () => ({
-//     __esModule: true,
-//     default: () => ({
-//       fieldState: {},
-//       handleFieldChange: () => {},
-//       validateFields: () => {}
-//     })
-//   })
-// }));
+let mockFieldState = {
+  username: { value: 'username' },
+  password: { value: 'password' }
+};
+let mockHandleFieldChange = jest.fn();
+let mockValidateFields = jest.fn();
+
+// See https://stackoverflow.com/questions/65270255/mocking-react-custom-hook-with-jest
+jest.mock('../../../../utils/hooks/use-form-validation', () => ({
+  __esModule: true,
+  default: () => ({
+    fieldState: mockFieldState,
+    handleFieldChange: mockHandleFieldChange,
+    validateFields: mockValidateFields
+  })
+}));
+
+const mockLogin = jest.fn();
+jest.mock('../../../../utils/hooks/use-auth', () => ({
+  __esModule: true,
+  default: () => ({
+    login: mockLogin
+  })
+}));
 
 describe('LoginForm', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('should render a Log In header', () => {
     render(<LoginForm />);
     const header = screen.getByRole('heading', { name: 'Log In' });
@@ -60,32 +78,42 @@ describe('LoginForm', () => {
     expect(link).toHaveAttribute('href', routes.signup);
   });
 
-  // FIXME: This is not working. Having trouble mocking the use-form-validation hook
-  // it('should call apiAuth.login with expected arguments when submit clicked', async () => {
-  //   const signUpMock = jest.spyOn(authApi, 'login').mockResolvedValue({});
-  //   const user = userEvent.setup();
+  it('should call useAuth.login when submit clicked', async () => {
+    const user = userEvent.setup();
+    mockValidateFields.mockReturnValue(null);
 
-  //   const signInDto: SignInDto = {
-  //     username: 'abc',
-  //     password: 'Abcdefghij1!'
-  //   };
+    const signInDto: SignInDto = {
+      username: mockFieldState.username.value,
+      password: mockFieldState.password.value
+    };
 
-  //   render(<LoginForm />);
+    render(<LoginForm />);
 
-  //   const submit = screen.getByRole('button', { name: 'Log In' });
-  //   const username = screen.getByPlaceholderText('Username');
-  //   const password = screen.getByPlaceholderText('Password');
+    const username = screen.getByPlaceholderText('Username');
+    const password = screen.getByPlaceholderText('Password');
+    const submit = screen.getByRole('button', { name: 'Log In' });
 
-  //   await user.type(username, signInDto.username);
-  //   await user.type(password, signInDto.password);
-  //   await user.click(submit);
+    await user.type(username, signInDto.username);
+    await user.type(password, signInDto.password);
+    await user.click(submit);
 
-  //   expect(signUpMock).toHaveBeenCalledWith(signInDto);
-  // });
+    expect(mockLogin).toHaveBeenCalledTimes(1);
+  });
 
-  // TODO: Implement these (user it.each to test multiple combinations in one test)
-  // it('should display error when empty username is submitted', () => {});
-  // it('should display error when empty password is submitted', () => {});
-  // it('should display error when empty username & password is submitted', () => {});
-  // it('should display error when API returns an error', () => {});
+  it('should display error when invalid field(s) are submitted', async () => {
+    const user = userEvent.setup();
+    const errors = ['error1', 'error2'];
+    mockValidateFields.mockReturnValue(errors);
+
+    render(<LoginForm />);
+
+    const submit = screen.getByRole('button', { name: 'Log In' });
+    await user.click(submit);
+
+    const error1 = screen.getByText(errors[0]);
+    const error2 = screen.getByText(errors[1]);
+
+    expect(error1).toBeInTheDocument();
+    expect(error2).toBeInTheDocument();
+  });
 });

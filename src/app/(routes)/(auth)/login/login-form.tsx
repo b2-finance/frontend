@@ -28,15 +28,19 @@ export default function LoginForm() {
     }
   });
 
-  const { login, loading } = useAuth();
+  const { login } = useAuth();
   const router = useRouter();
   const [errors, setErrors] = useState<string[] | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async () => {
+    setSubmitting(true);
     const validationErrors = validateFields();
 
-    if (validationErrors) setErrors(validationErrors);
-    else {
+    if (validationErrors) {
+      setErrors(validationErrors);
+      setSubmitting(false);
+    } else {
       const {
         username: { value: username },
         password: { value: password }
@@ -45,7 +49,10 @@ export default function LoginForm() {
       await login({
         dto: { username, password },
         onSuccess: () => router.push(routes.dashboard),
-        onFail: (errors) => setErrors(errors)
+        onFail: (errors) => {
+          setErrors(errors);
+          setSubmitting(false);
+        }
       });
     }
   };
@@ -63,7 +70,7 @@ export default function LoginForm() {
         route: routes.signup
       }}
       errors={errors}
-      submitting={loading}
+      submitting={submitting}
     >
       <>
         <div className="flex flex-col gap-4">

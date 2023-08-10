@@ -57,7 +57,7 @@ export default function useAuth(): AuthUtils {
     onFail
   }: { dto: SignUpDto } & AuthResultHandler): Promise<void> => {
     setLoading(true);
-    const { errors } = await authApi.signUp(dto);
+    const { errors } = await authApi.signup(dto);
 
     if (errors) onFail(errors);
     else {

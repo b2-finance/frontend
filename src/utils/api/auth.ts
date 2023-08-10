@@ -98,7 +98,7 @@ export const authApi: {
    * @param signUpDto {@link SignUpDto}
    * @returns An {@link AuthResponse}.
    */
-  signUp: (signUpDto: SignUpDto) => Promise<AuthResponse>;
+  signup: (signUpDto: SignUpDto) => Promise<AuthResponse>;
 
   /**
    * Logs the user into the application.
@@ -122,7 +122,7 @@ export const authApi: {
    */
   refreshTokens: () => Promise<AuthResponse>;
 } = {
-  signUp: async (signUpDto: SignUpDto): Promise<AuthResponse> => {
+  signup: async (signUpDto: SignUpDto): Promise<AuthResponse> => {
     return await authRequest({
       path: '/signup',
       method: 'POST',

@@ -39,8 +39,22 @@ export interface FieldState {
  * The return type of the {@link useFormValidation} hook.
  */
 export interface FormValidation {
+  /**
+   * Contains field names as keys, with their values and error states.
+   */
   fieldState: FieldState;
+  /**
+   * Updates the field state when input changes.
+   *
+   * @param event An HTML input element change event.
+   */
   handleFieldChange: (event: any) => void;
+  /**
+   * Validates all fields based on the conditions set in the initial {@link FieldValidations}
+   * and updates the error attribute of the {@link FieldState}.
+   *
+   * @returns A list of all errors found, or null if no errors.
+   */
   validateFields: () => string[] | null;
 }
 
@@ -50,7 +64,9 @@ export interface FormValidation {
  * @param fields {@link FieldValidations}
  * @returns A {@link FormValidation}.
  */
-export default function useFormValidation(fields: FieldValidations) {
+export default function useFormValidation(
+  fields: FieldValidations
+): FormValidation {
   const [fieldState, setFieldState] = useState<FieldState>({});
 
   // Initialize the field state from props.
@@ -63,11 +79,6 @@ export default function useFormValidation(fields: FieldValidations) {
     setFieldState(fs);
   }, []);
 
-  /**
-   * Updates the field state when input changes.
-   *
-   * @param event An HTML input element change event.
-   */
   const handleFieldChange = (event: any): void => {
     const { name, value } = event.target;
     setFieldState((prev) => ({
@@ -76,12 +87,6 @@ export default function useFormValidation(fields: FieldValidations) {
     }));
   };
 
-  /**
-   * Validates all fields based on the conditions set in the initial {@link FieldValidations}
-   * and updates the error attribute of the {@link FieldState}.
-   *
-   * @returns A list of all errors found, or null if no errors.
-   */
   const validateFields = (): string[] | null => {
     const errors: string[] = [];
 

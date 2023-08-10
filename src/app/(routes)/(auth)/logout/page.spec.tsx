@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LogoutPage from './page';
 
@@ -13,7 +13,7 @@ jest.mock('next/navigation', () => ({
 }));
 
 const mockLogout = jest.fn();
-jest.mock('../../../../utils/hooks/use-auth', () => ({
+jest.mock('../../../components/hooks/use-auth', () => ({
   __esModule: true,
   default: () => ({
     logout: mockLogout

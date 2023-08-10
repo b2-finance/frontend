@@ -1,6 +1,6 @@
 import useAppContext from '@/app/app-context';
-import { SignInDto, SignUpDto } from '../types';
-import { authApi } from '../api/auth';
+import { SignInDto, SignUpDto } from '../../../utils/types';
+import { authApi } from '../../../utils/api/auth';
 import { useState } from 'react';
 
 /**

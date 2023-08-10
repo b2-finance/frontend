@@ -1,7 +1,7 @@
 'use client';
 
 import B2Icon from '@/app/components/icons/b2-icon';
-import useAuth from '@/utils/hooks/use-auth';
+import useAuth from '@/app/components/hooks/use-auth';
 import routes from '@/utils/routes';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';

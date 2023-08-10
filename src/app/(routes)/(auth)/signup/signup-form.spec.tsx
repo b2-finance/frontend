@@ -20,7 +20,7 @@ let mockHandleFieldChange = jest.fn();
 let mockValidateFields = jest.fn();
 
 // See https://stackoverflow.com/questions/65270255/mocking-react-custom-hook-with-jest
-jest.mock('../../../../utils/hooks/use-form-validation', () => ({
+jest.mock('../../../components/hooks/use-form-validation', () => ({
   __esModule: true,
   default: () => ({
     fieldState: mockFieldState,
@@ -30,7 +30,7 @@ jest.mock('../../../../utils/hooks/use-form-validation', () => ({
 }));
 
 const mockSignup = jest.fn();
-jest.mock('../../../../utils/hooks/use-auth', () => ({
+jest.mock('../../../components/hooks/use-auth', () => ({
   __esModule: true,
   default: () => ({
     signup: mockSignup

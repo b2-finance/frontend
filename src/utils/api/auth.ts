@@ -153,7 +153,7 @@ export const authApi: {
       headers: {
         AUTHORIZATION: `Bearer ${access.token}`
       },
-      defaultErrorMessage: 'Error signing out.'
+      defaultErrorMessage: 'Error logging out.'
     });
   },
 

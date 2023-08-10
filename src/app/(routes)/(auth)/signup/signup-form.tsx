@@ -7,7 +7,7 @@ import UserIcon from '../../../components/icons/user-icon';
 import LockIcon from '../../../components/icons/lock-icon';
 import MailIcon from '../../../components/icons/mail-icon';
 import routes from '@/utils/routes';
-import { authApi } from '@/utils/api/auth';
+import useAuth from '@/utils/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 import AuthFormContainer from '../auth-form-container';
 
@@ -36,6 +36,7 @@ export default function SignupForm() {
     }
   });
 
+  const { signup } = useAuth();
   const router = useRouter();
   const [errors, setErrors] = useState<string[] | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -51,16 +52,18 @@ export default function SignupForm() {
     } else {
       const { username, email, password } = fieldState;
 
-      const { errors: err } = await authApi.signUp({
-        username: username.value,
-        email: email.value,
-        password: password.value
+      await signup({
+        dto: {
+          username: username.value,
+          email: email.value,
+          password: password.value
+        },
+        onSuccess: () => router.push(routes.dashboard),
+        onFail: (errors) => {
+          setErrors(errors);
+          setSubmitting(false);
+        }
       });
-
-      if (err) {
-        setErrors(err);
-        setSubmitting(false);
-      } else router.push(routes.dashboard);
     }
   };
 

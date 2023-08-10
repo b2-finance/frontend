@@ -7,7 +7,7 @@ import UserIcon from '../../../components/icons/user-icon';
 import LockIcon from '../../../components/icons/lock-icon';
 import Link from 'next/link';
 import routes from '@/utils/routes';
-import { authApi } from '@/utils/api/auth';
+import useAuth from '@/utils/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 import AuthFormContainer from '../auth-form-container';
 
@@ -28,6 +28,7 @@ export default function LoginForm() {
     }
   });
 
+  const { login } = useAuth();
   const router = useRouter();
   const [errors, setErrors] = useState<string[] | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -43,15 +44,17 @@ export default function LoginForm() {
     } else {
       const { username, password } = fieldState;
 
-      const { errors: err } = await authApi.login({
-        username: username.value,
-        password: password.value
+      await login({
+        dto: {
+          username: username.value,
+          password: password.value
+        },
+        onSuccess: () => router.push(routes.dashboard),
+        onFail: (errors) => {
+          setErrors(errors);
+          setSubmitting(false);
+        }
       });
-
-      if (err) {
-        setErrors(err);
-        setSubmitting(false);
-      } else router.push(routes.dashboard);
     }
   };
 

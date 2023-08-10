@@ -17,6 +17,7 @@ export const getAccessToken = (): string => access.token;
  */
 export interface AuthResponse {
   errors?: string[];
+  status?: string;
 }
 
 /**
@@ -61,25 +62,30 @@ interface AuthRequestParams {
 async function authRequest(params: AuthRequestParams): Promise<AuthResponse> {
   const { path, method, headers, body, defaultErrorMessage } = params;
 
-  const res = await fetch('/auth/' + path, {
+  const res = await fetch('/auth' + path, {
     cache: 'no-store',
     ...(method && { method }),
     ...(headers && { headers }),
     ...(body && { body: JSON.stringify(body) })
   });
-  const { accessToken, expiresIn, statusCode, message } = await res.json();
 
-  if (statusCode >= 400) {
-    return typeof message === 'string'
-      ? { errors: [message ?? defaultErrorMessage] }
-      : { errors: message.length > 0 ? message : [defaultErrorMessage] };
-  }
+  try {
+    const { accessToken, expiresIn, statusCode, message } = await res.json();
 
-  if (accessToken) {
-    const expiresAt = new Date(new Date().getTime() + expiresIn * 1000);
-    access = { token: accessToken, expiresAt };
+    if (statusCode >= 400) {
+      return typeof message === 'string'
+        ? { errors: [message ?? defaultErrorMessage] }
+        : { errors: message.length > 0 ? message : [defaultErrorMessage] };
+    }
+
+    if (accessToken) {
+      const expiresAt = new Date(new Date().getTime() + expiresIn * 1000);
+      access = { token: accessToken, expiresAt };
+    }
+    return {};
+  } catch (error) {
+    return res.status < 400 ? {} : { errors: [defaultErrorMessage] };
   }
-  return {};
 }
 
 /**
@@ -104,8 +110,10 @@ export const authApi: {
 
   /**
    * Logs the user out of the application.
+   *
+   * @returns An {@link AuthResponse}.
    */
-  logout: () => Promise<void>;
+  logout: () => Promise<AuthResponse>;
 
   /**
    * Obtains a new access and refresh token.
@@ -138,8 +146,8 @@ export const authApi: {
     });
   },
 
-  logout: async (): Promise<void> => {
-    await authRequest({
+  logout: async (): Promise<AuthResponse> => {
+    return await authRequest({
       path: '/logout',
       method: 'GET',
       headers: {

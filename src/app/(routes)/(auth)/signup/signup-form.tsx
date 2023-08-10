@@ -36,33 +36,25 @@ export default function SignupForm() {
     }
   });
 
-  const { signup } = useAuth();
+  const { signup, loading } = useAuth();
   const router = useRouter();
   const [errors, setErrors] = useState<string[] | null>(null);
-  const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async () => {
-    setSubmitting(true);
-
     const validationErrors = validateFields();
 
-    if (validationErrors) {
-      setErrors(validationErrors);
-      setSubmitting(false);
-    } else {
-      const { username, email, password } = fieldState;
+    if (validationErrors) setErrors(validationErrors);
+    else {
+      const {
+        email: { value: email },
+        username: { value: username },
+        password: { value: password }
+      } = fieldState;
 
       await signup({
-        dto: {
-          username: username.value,
-          email: email.value,
-          password: password.value
-        },
+        dto: { email, username, password },
         onSuccess: () => router.push(routes.dashboard),
-        onFail: (errors) => {
-          setErrors(errors);
-          setSubmitting(false);
-        }
+        onFail: (errors) => setErrors(errors)
       });
     }
   };
@@ -80,7 +72,7 @@ export default function SignupForm() {
         route: routes.login
       }}
       errors={errors}
-      submitting={submitting}
+      submitting={loading}
     >
       <div className="flex flex-col gap-4">
         <TextField

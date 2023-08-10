@@ -1,6 +1,7 @@
 import useAppContext from '@/app/app-context';
 import { SignInDto, SignUpDto } from '../types';
 import { authApi } from '../api/auth';
+import { useState } from 'react';
 
 /**
  * Functions to execute when an authentication request succeeds/fails.
@@ -35,6 +36,10 @@ export interface AuthUtils {
    * @returns void
    */
   logout: (params: AuthResultHandler) => Promise<void>;
+  /**
+   * A state variable that is true while one of the auth methods is in process.
+   */
+  loading: boolean;
 }
 
 /**
@@ -44,12 +49,14 @@ export interface AuthUtils {
  */
 export default function useAuth(): AuthUtils {
   const { setAuthenticated } = useAppContext();
+  const [loading, setLoading] = useState(false);
 
   const signup = async ({
     dto,
     onSuccess,
     onFail
   }: { dto: SignUpDto } & AuthResultHandler): Promise<void> => {
+    setLoading(true);
     const { errors } = await authApi.signUp(dto);
 
     if (errors) onFail(errors);
@@ -57,6 +64,7 @@ export default function useAuth(): AuthUtils {
       setAuthenticated(true);
       onSuccess();
     }
+    setLoading(false);
   };
 
   const login = async ({
@@ -64,6 +72,7 @@ export default function useAuth(): AuthUtils {
     onSuccess,
     onFail
   }: { dto: SignInDto } & AuthResultHandler): Promise<void> => {
+    setLoading(true);
     const { errors } = await authApi.login(dto);
 
     if (errors) onFail(errors);
@@ -71,12 +80,14 @@ export default function useAuth(): AuthUtils {
       setAuthenticated(true);
       onSuccess();
     }
+    setLoading(false);
   };
 
   const logout = async ({
     onSuccess,
     onFail
   }: AuthResultHandler): Promise<void> => {
+    setLoading(true);
     const { errors } = await authApi.logout();
 
     if (errors) onFail(errors);
@@ -84,7 +95,8 @@ export default function useAuth(): AuthUtils {
       setAuthenticated(false);
       onSuccess();
     }
+    setLoading(false);
   };
 
-  return { signup, login, logout };
+  return { signup, login, logout, loading };
 }

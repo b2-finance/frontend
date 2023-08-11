@@ -8,7 +8,7 @@ import LockIcon from '../../../components/icons/lock-icon';
 import Link from 'next/link';
 import routes from '@/utils/routes';
 import useAuth from '@/app/components/hooks/use-auth';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import AuthFormContainer from '../auth-form-container';
 
 /**
@@ -30,6 +30,7 @@ export default function LoginForm() {
 
   const { login } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const [errors, setErrors] = useState<string[] | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -48,7 +49,9 @@ export default function LoginForm() {
 
       await login({
         dto: { username, password },
-        onSuccess: () => router.push(routes.dashboard),
+        onSuccess: () => {
+          if (pathname === routes.login) router.push(routes.dashboard);
+        },
         onFail: (errors) => {
           setErrors(errors);
           setSubmitting(false);

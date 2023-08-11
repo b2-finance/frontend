@@ -6,7 +6,8 @@ import routes from '@/utils/routes';
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
     push: jest.fn()
-  })
+  }),
+  usePathname: () => ({})
 }));
 
 describe('LoginPage', () => {

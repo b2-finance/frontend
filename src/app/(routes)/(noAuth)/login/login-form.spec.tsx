@@ -8,7 +8,8 @@ import userEvent from '@testing-library/user-event';
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
     push: jest.fn()
-  })
+  }),
+  usePathname: () => ({})
 }));
 
 let mockFieldState = {

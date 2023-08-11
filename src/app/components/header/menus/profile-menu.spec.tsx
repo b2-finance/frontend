@@ -20,8 +20,6 @@ const TestContainer = ({
       value={{
         userId: '',
         setUserId: () => {},
-        access: { token: '', expiresAt: new Date(0) },
-        setAccess: () => {},
         authenticated,
         setAuthenticated: () => {}
       }}

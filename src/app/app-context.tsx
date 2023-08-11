@@ -1,6 +1,5 @@
 'use client';
 
-import { Access } from '@/utils/types';
 import {
   Dispatch,
   ReactNode,
@@ -17,8 +16,6 @@ import {
 export interface AppContextType {
   userId: string;
   setUserId: Dispatch<SetStateAction<string>>;
-  access: Access;
-  setAccess: Dispatch<SetStateAction<Access>>;
   authenticated: boolean;
   setAuthenticated: Dispatch<SetStateAction<boolean>>;
 }
@@ -29,8 +26,6 @@ export interface AppContextType {
 export const AppContext = createContext<AppContextType>({
   userId: '',
   setUserId: () => {},
-  access: { token: '', expiresAt: new Date(0) },
-  setAccess: () => {},
   authenticated: false,
   setAuthenticated: () => {}
 });
@@ -54,11 +49,6 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(authenticatedKey, String(authenticated));
   }, [authenticated]);
 
-  const [access, setAccess] = useState<Access>({
-    token: '',
-    expiresAt: new Date(0)
-  });
-
   /*
     LocalStorage is not defined until page has been mounted on client.
     See https://developer.school/snippets/react/localstorage-is-not-defined-nextjs
@@ -73,8 +63,6 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
       value={{
         userId,
         setUserId,
-        access,
-        setAccess,
         authenticated,
         setAuthenticated
       }}

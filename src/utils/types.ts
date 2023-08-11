@@ -24,14 +24,6 @@ export type NavigationLinkProps = LinkProps & {
 };
 
 /**
- * Represents a JWT access token.
- */
-export interface Access {
-  token: string;
-  expiresAt: Date;
-}
-
-/**
  * Attributes required to register a new user with the application.
  */
 export interface SignUpDto {

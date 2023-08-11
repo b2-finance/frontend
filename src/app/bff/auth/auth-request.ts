@@ -8,10 +8,12 @@ export const REFRESH_TOKEN_NAME = 'refresh_token';
 export const ACCESS_TOKEN_NAME = 'access_token';
 
 /**
- * Contains the errors returned from the authorization request, if any.
+ * Contains the errors returned from the authorization request, if any,
+ * and the userId if returned from the server.
  */
 export interface AuthResponse {
   errors?: string[];
+  userId?: string;
 }
 
 /**
@@ -69,7 +71,8 @@ export async function authRequest({
   let response: NextResponse<AuthResponse>;
 
   try {
-    const { accessToken, expiresIn, statusCode, message } = await res.json();
+    const { userId, accessToken, expiresIn, statusCode, message } =
+      await res.json();
 
     if (statusCode >= 400 || res.status >= 400) {
       console.error(message ?? defaultErrorMessage);
@@ -106,7 +109,7 @@ export async function authRequest({
         });
 
       response = NextResponse.json(
-        {},
+        { userId },
         { status: statusCode ?? res.status ?? 200 }
       );
     }

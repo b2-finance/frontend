@@ -49,7 +49,7 @@ export interface AuthUtils {
  * @returns An {@link AuthUtils}.
  */
 export default function useAuth(): AuthUtils {
-  const { setAuthenticated } = useAppContext();
+  const { authenticated, setAuthenticated, setUserId } = useAppContext();
 
   const signup = async ({
     dto,
@@ -80,10 +80,11 @@ export default function useAuth(): AuthUtils {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(dto)
     });
-    const { errors } = await res.json();
+    const { errors, userId } = await res.json();
 
     if (errors) onFail(errors);
     else {
+      setUserId(userId);
       setAuthenticated(true);
       onSuccess();
     }
@@ -110,6 +111,7 @@ export default function useAuth(): AuthUtils {
         }
       });
     }
+    setUserId('');
     setAuthenticated(false);
     onSuccess();
   };

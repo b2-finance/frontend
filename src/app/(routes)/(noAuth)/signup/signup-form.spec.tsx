@@ -120,4 +120,42 @@ describe('SignupForm', () => {
     expect(error1).toBeInTheDocument();
     expect(error2).toBeInTheDocument();
   });
+
+  it('should ignore case for email/username and respect case for password', async () => {
+    const user = userEvent.setup();
+    mockValidateFields.mockReturnValue(null);
+
+    const signUpDto: SignUpDto = {
+      email: 'CaseInsensitiveEmail',
+      username: 'CaseInsensitiveUserName',
+      password: 'CaseSensitivePassWord'
+    };
+    mockFieldState = {
+      email: { value: signUpDto.email },
+      username: { value: signUpDto.username },
+      password: { value: signUpDto.password }
+    };
+
+    render(<SignupForm />);
+
+    const email = screen.getByPlaceholderText('Email');
+    const username = screen.getByPlaceholderText('Username');
+    const password = screen.getByPlaceholderText('Password');
+    const submit = screen.getByRole('button', { name: 'Create Account' });
+
+    await user.type(email, signUpDto.email);
+    await user.type(username, signUpDto.username);
+    await user.type(password, signUpDto.password);
+    await user.click(submit);
+
+    expect(mockSignup).toHaveBeenCalledWith({
+      dto: {
+        email: signUpDto.email.toLowerCase(),
+        username: signUpDto.username.toLowerCase(),
+        password: signUpDto.password
+      },
+      onFail: expect.any(Function),
+      onSuccess: expect.any(Function)
+    });
+  });
 });

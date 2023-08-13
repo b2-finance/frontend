@@ -117,4 +117,37 @@ describe('LoginForm', () => {
     expect(error1).toBeInTheDocument();
     expect(error2).toBeInTheDocument();
   });
+
+  it('should ignore case for username and respect case for password', async () => {
+    const user = userEvent.setup();
+    mockValidateFields.mockReturnValue(null);
+
+    const signInDto: SignInDto = {
+      username: 'CaseInsensitiveUserName',
+      password: 'CaseSensitivePassWord'
+    };
+    mockFieldState = {
+      username: { value: signInDto.username },
+      password: { value: signInDto.password }
+    };
+
+    render(<LoginForm />);
+
+    const username = screen.getByPlaceholderText('Username');
+    const password = screen.getByPlaceholderText('Password');
+    const submit = screen.getByRole('button', { name: 'Log In' });
+
+    await user.type(username, signInDto.username);
+    await user.type(password, signInDto.password);
+    await user.click(submit);
+
+    expect(mockLogin).toHaveBeenCalledWith({
+      dto: {
+        username: signInDto.username.toLowerCase(),
+        password: signInDto.password
+      },
+      onFail: expect.any(Function),
+      onSuccess: expect.any(Function)
+    });
+  });
 });

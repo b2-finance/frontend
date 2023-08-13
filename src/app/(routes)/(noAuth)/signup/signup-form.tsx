@@ -56,7 +56,11 @@ export default function SignupForm() {
       } = fieldState;
 
       await signup({
-        dto: { email, username, password },
+        dto: {
+          email: email.toLowerCase(),
+          username: username.toLowerCase(),
+          password
+        },
         onSuccess: () => router.push(routes.dashboard),
         onFail: (errors) => {
           setErrors(errors);

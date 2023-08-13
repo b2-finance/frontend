@@ -48,7 +48,10 @@ export default function LoginForm() {
       } = fieldState;
 
       await login({
-        dto: { username, password },
+        dto: {
+          username: username.toLowerCase(),
+          password
+        },
         onSuccess: () => {
           if (pathname === routes.login) router.push(routes.dashboard);
           else router.refresh();

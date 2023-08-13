@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import DropdownMenu from './dropdown-menu';
-import { NavigationLinkProps } from '@/utils/types';
+import { NavigationLinkProps } from '../types';
 import userEvent from '@testing-library/user-event';
 
 describe('DropdownMenu', () => {

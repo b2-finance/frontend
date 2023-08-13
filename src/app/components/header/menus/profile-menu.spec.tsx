@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ProfileMenu from './profile-menu';
-import { NavigationLinkProps } from '@/utils/types';
+import { NavigationLinkProps } from '../types';
 
 describe('ProfileMenu', () => {
   it('should render all dropdown menu links', () => {

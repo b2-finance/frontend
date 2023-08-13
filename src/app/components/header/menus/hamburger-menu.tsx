@@ -1,5 +1,5 @@
 import DropdownMenu from './dropdown-menu';
-import { NavigationLinkProps } from '@/utils/types';
+import { NavigationLinkProps } from '../types';
 
 /**
  * Props for the {@link HamburgerMenu} component.

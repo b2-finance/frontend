@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HamburgerMenu from './hamburger-menu';
-import { NavigationLinkProps } from '@/utils/types';
+import { NavigationLinkProps } from '../types';
 
 describe('HamburgerMenu', () => {
   it('should render all dropdown menu links', () => {

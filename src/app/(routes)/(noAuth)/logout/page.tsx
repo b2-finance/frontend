@@ -1,7 +1,7 @@
 'use client';
 
 import B2Icon from '@/app/components/icons/b2-icon';
-import useAuth from '@/app/components/hooks/use-auth';
+import { logout } from '@/app/bff-utils/auth-utils';
 import routes from '@/utils/routes';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -14,7 +14,6 @@ const TIMER = 5;
  * @returns A JSX element.
  */
 export default function LogoutPage() {
-  const { logout } = useAuth();
   const router = useRouter();
   const [timer, setTimer] = useState(TIMER);
 

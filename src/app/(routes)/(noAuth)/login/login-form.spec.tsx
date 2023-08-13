@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LoginForm from './login-form';
-import { SignInDto } from '@/utils/types';
+import { SignInDto, login } from '@/app/bff-utils/auth-utils';
 import routes from '@/utils/routes';
 import userEvent from '@testing-library/user-event';
 
@@ -29,12 +29,8 @@ jest.mock('../../../components/hooks/use-form-validation', () => ({
   })
 }));
 
-const mockLogin = jest.fn();
-jest.mock('../../../components/hooks/use-auth', () => ({
-  __esModule: true,
-  default: () => ({
-    login: mockLogin
-  })
+jest.mock('../../../bff-utils/auth-utils', () => ({
+  login: jest.fn()
 }));
 
 describe('LoginForm', () => {
@@ -79,7 +75,7 @@ describe('LoginForm', () => {
     expect(link).toHaveAttribute('href', routes.signup);
   });
 
-  it('should call useAuth.login when submit clicked', async () => {
+  it('should call login when submit clicked', async () => {
     const user = userEvent.setup();
     mockValidateFields.mockReturnValue(null);
 
@@ -98,7 +94,7 @@ describe('LoginForm', () => {
     await user.type(password, signInDto.password);
     await user.click(submit);
 
-    expect(mockLogin).toHaveBeenCalledTimes(1);
+    expect(login).toHaveBeenCalledTimes(1);
   });
 
   it('should display error when invalid field(s) are submitted', async () => {
@@ -141,7 +137,7 @@ describe('LoginForm', () => {
     await user.type(password, signInDto.password);
     await user.click(submit);
 
-    expect(mockLogin).toHaveBeenCalledWith({
+    expect(login).toHaveBeenCalledWith({
       dto: {
         username: signInDto.username.toLowerCase(),
         password: signInDto.password

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SignupForm from './signup-form';
-import { SignUpDto } from '@/utils/types';
+import { SignUpDto, signup } from '@/app/bff-utils/auth-utils';
 import routes from '@/utils/routes';
 import userEvent from '@testing-library/user-event';
 
@@ -29,12 +29,8 @@ jest.mock('../../../components/hooks/use-form-validation', () => ({
   })
 }));
 
-const mockSignup = jest.fn();
-jest.mock('../../../components/hooks/use-auth', () => ({
-  __esModule: true,
-  default: () => ({
-    signup: mockSignup
-  })
+jest.mock('../../../bff-utils/auth-utils', () => ({
+  signup: jest.fn()
 }));
 
 describe('SignupForm', () => {
@@ -79,7 +75,7 @@ describe('SignupForm', () => {
     expect(link).toHaveAttribute('href', routes.login);
   });
 
-  it('should call useAuth.signup when submit clicked', async () => {
+  it('should call signup when submit clicked', async () => {
     const user = userEvent.setup();
     mockValidateFields.mockReturnValue(null);
 
@@ -101,7 +97,7 @@ describe('SignupForm', () => {
     await user.type(password, signUpDto.password);
     await user.click(submit);
 
-    expect(mockSignup).toHaveBeenCalledTimes(1);
+    expect(signup).toHaveBeenCalledTimes(1);
   });
 
   it('should display error when invalid field(s) are submitted', async () => {
@@ -148,7 +144,7 @@ describe('SignupForm', () => {
     await user.type(password, signUpDto.password);
     await user.click(submit);
 
-    expect(mockSignup).toHaveBeenCalledWith({
+    expect(signup).toHaveBeenCalledWith({
       dto: {
         email: signUpDto.email.toLowerCase(),
         username: signUpDto.username.toLowerCase(),

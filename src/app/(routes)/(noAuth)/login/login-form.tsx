@@ -7,7 +7,7 @@ import UserIcon from '../../../components/icons/user-icon';
 import LockIcon from '../../../components/icons/lock-icon';
 import Link from 'next/link';
 import routes from '@/utils/routes';
-import useAuth from '@/app/components/hooks/use-auth';
+import { login } from '@/app/bff-utils/auth-utils';
 import { usePathname, useRouter } from 'next/navigation';
 import AuthFormContainer from '../auth-form-container';
 
@@ -28,7 +28,6 @@ export default function LoginForm() {
     }
   });
 
-  const { login } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const [errors, setErrors] = useState<string[] | null>(null);

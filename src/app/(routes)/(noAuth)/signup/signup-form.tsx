@@ -7,7 +7,7 @@ import UserIcon from '../../../components/icons/user-icon';
 import LockIcon from '../../../components/icons/lock-icon';
 import MailIcon from '../../../components/icons/mail-icon';
 import routes from '@/utils/routes';
-import useAuth from '@/app/components/hooks/use-auth';
+import { signup } from '@/app/bff-utils/auth-utils';
 import { useRouter } from 'next/navigation';
 import AuthFormContainer from '../auth-form-container';
 
@@ -36,7 +36,6 @@ export default function SignupForm() {
     }
   });
 
-  const { signup } = useAuth();
   const router = useRouter();
   const [errors, setErrors] = useState<string[] | null>(null);
   const [submitting, setSubmitting] = useState(false);

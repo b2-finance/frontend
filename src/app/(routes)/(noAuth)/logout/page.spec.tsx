@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LogoutPage from './page';
+import { logout } from '@/app/bff-utils/auth-utils';
 
 jest.useFakeTimers();
 
@@ -12,12 +13,8 @@ jest.mock('next/navigation', () => ({
   })
 }));
 
-const mockLogout = jest.fn();
-jest.mock('../../../components/hooks/use-auth', () => ({
-  __esModule: true,
-  default: () => ({
-    logout: mockLogout
-  })
+jest.mock('../../../bff-utils/auth-utils', () => ({
+  logout: jest.fn()
 }));
 
 describe('LogoutPage', () => {
@@ -33,9 +30,9 @@ describe('LogoutPage', () => {
     expect(heading).toBeInTheDocument();
   });
 
-  it('should call useAuth.logout once', () => {
+  it('should call logout once', () => {
     render(<LogoutPage />);
-    expect(mockLogout).toHaveBeenCalledTimes(1);
+    expect(logout).toHaveBeenCalledTimes(1);
   });
 
   // FIXME: This is not working.

@@ -4,8 +4,14 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
-export const REFRESH_TOKEN_NAME = 'refresh_token';
-export const ACCESS_TOKEN_NAME = 'access_token';
+export const ACCESS_TOKEN = 'access_token';
+export const ACCESS_TOKEN_PATH = '/bff/api';
+
+export const REFRESH_TOKEN = 'refresh_token';
+export const REFRESH_TOKEN_PATH = '/bff/auth/refresh';
+
+export const USER_ID = 'user_id';
+export const USER_ID_PATH = '/';
 
 /**
  * Contains the errors returned from the authorization request, if any,
@@ -70,59 +76,80 @@ export async function authRequest({
   });
   let response: NextResponse<AuthResponse>;
 
-  try {
-    const { userId, accessToken, expiresIn, statusCode, message } =
-      await res.json();
+  const { userId, accessToken, expiresIn, statusCode, message } =
+    await res.json();
 
-    if (statusCode >= 400 || res.status >= 400) {
-      console.error(message ?? defaultErrorMessage);
-      response = NextResponse.json(
-        {
-          errors:
-            typeof message !== 'string' && message?.length
-              ? message
-              : [message ?? defaultErrorMessage]
-        },
-        { status: statusCode ?? res.status }
-      );
-    } else {
-      accessToken &&
-        cookies().set({
-          name: ACCESS_TOKEN_NAME,
-          value: accessToken,
-          httpOnly: true,
-          secure: true,
-          sameSite: 'strict',
-          path: '/bff/api',
-          expires: new Date(new Date().getTime() + expiresIn * 1000)
-        });
-
-      const refreshToken = res.headers?.get('set-cookie');
-      refreshToken &&
-        cookies().set({
-          name: REFRESH_TOKEN_NAME,
-          value: refreshToken,
-          httpOnly: true,
-          secure: true,
-          sameSite: 'strict',
-          path: '/bff/auth/refresh'
-        });
-
-      response = NextResponse.json(
-        { userId },
-        { status: statusCode ?? res.status ?? 200 }
+  if (statusCode >= 400 || res.status >= 400) {
+    console.error(message ?? defaultErrorMessage);
+    response = NextResponse.json(
+      {
+        errors:
+          typeof message === 'string'
+            ? [message ?? defaultErrorMessage]
+            : message?.length
+            ? message
+            : [defaultErrorMessage]
+      },
+      { status: statusCode ?? res.status }
+    );
+  } else {
+    if (accessToken) {
+      setCookie(
+        ACCESS_TOKEN,
+        accessToken,
+        ACCESS_TOKEN_PATH,
+        new Date(new Date().getTime() + expiresIn * 1000)
       );
     }
-  } catch (error) {
-    if (res.status < 400)
-      response = NextResponse.json({}, { status: res.status });
-    else {
-      console.error(error);
-      response = NextResponse.json(
-        { errors: [defaultErrorMessage] },
-        { status: res.status ?? 500 }
-      );
+
+    const refreshToken = res.headers?.get('set-cookie');
+
+    if (refreshToken) {
+      const refreshExpires = refreshToken
+        .split(';')
+        .find((x) => x.toLowerCase().includes('expires='))
+        ?.toLowerCase()
+        .trim()
+        .replace('expires=', '');
+
+      const expires = refreshExpires
+        ? new Date(refreshExpires)
+        : new Date(new Date().getTime() + expiresIn * 1000);
+
+      setCookie(REFRESH_TOKEN, refreshToken, REFRESH_TOKEN_PATH, expires);
+      userId && setCookie(USER_ID, userId, USER_ID_PATH, expires);
     }
+
+    response = NextResponse.json(
+      { userId },
+      { status: statusCode ?? res.status ?? 200 }
+    );
   }
   return response;
 }
+
+/**
+ * Sets a cookie on the browser with the following attributes:
+ * HttpOnly, Secure, SameSite=strict.
+ *
+ * @param name The name (key) of the cookie.
+ * @param value The value of the cookie.
+ * @param path The path for which the browser shall send the cookie.
+ * @param expires The expiration date of the cookie.
+ */
+const setCookie = (
+  name: string,
+  value: string,
+  path: string,
+  expires: Date
+): void => {
+  cookies().set({
+    name,
+    value,
+    httpOnly: true,
+    secure: true,
+    sameSite: 'strict',
+    path,
+    expires
+  });
+};

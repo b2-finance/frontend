@@ -1,4 +1,3 @@
-import useAppContext from '@/app/app-context';
 import { SignInDto, SignUpDto } from '../../../utils/types';
 
 /**
@@ -49,8 +48,6 @@ export interface AuthUtils {
  * @returns An {@link AuthUtils}.
  */
 export default function useAuth(): AuthUtils {
-  const { authenticated, setAuthenticated, setUserId } = useAppContext();
-
   const signup = async ({
     dto,
     onSuccess,
@@ -64,10 +61,7 @@ export default function useAuth(): AuthUtils {
     const { errors } = await res.json();
 
     if (errors) onFail(errors);
-    else {
-      setAuthenticated(true);
-      onSuccess();
-    }
+    else onSuccess();
   };
 
   const login = async ({
@@ -80,14 +74,10 @@ export default function useAuth(): AuthUtils {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(dto)
     });
-    const { errors, userId } = await res.json();
+    const { errors } = await res.json();
 
     if (errors) onFail(errors);
-    else {
-      setUserId(userId);
-      setAuthenticated(true);
-      onSuccess();
-    }
+    else onSuccess();
   };
 
   const logout = async ({
@@ -111,8 +101,6 @@ export default function useAuth(): AuthUtils {
         }
       });
     }
-    setUserId('');
-    setAuthenticated(false);
     onSuccess();
   };
 
@@ -124,10 +112,7 @@ export default function useAuth(): AuthUtils {
     const { errors } = await res.json();
 
     if (errors) onFail(errors);
-    else {
-      setAuthenticated(true);
-      onSuccess();
-    }
+    else onSuccess();
   };
 
   return { signup, login, logout, refresh };

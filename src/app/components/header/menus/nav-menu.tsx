@@ -1,18 +1,23 @@
-'use client';
-
 import SelfBlurringLink from './self-blurring-link';
-import useHeaderContext from '../header-context';
+import { NavigationLinkProps } from '@/utils/types';
+
+/**
+ * Props for the {@link NavMenu} component.
+ */
+export interface NavMenuProps {
+  links: NavigationLinkProps[];
+}
 
 /**
  * Contains the main navigation links on the app header.
  *
- * @returns A JSX element.
+ * @param props {@link NavMenuProps}
+ * @returns A JSX Element.
  */
-export default function NavMenu() {
-  const { navLinks } = useHeaderContext();
+export default function NavMenu({ links }: NavMenuProps) {
   return (
     <ul className="menu menu-horizontal text-primary-content">
-      {navLinks?.map(({ display, href }) => (
+      {links?.map(({ display, href }) => (
         <li key={display}>
           <SelfBlurringLink href={href}>{display}</SelfBlurringLink>
         </li>

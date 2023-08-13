@@ -51,6 +51,7 @@ export default function LoginForm() {
         dto: { username, password },
         onSuccess: () => {
           if (pathname === routes.login) router.push(routes.dashboard);
+          else router.refresh();
         },
         onFail: (errors) => {
           setErrors(errors);

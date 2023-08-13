@@ -2,27 +2,6 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HamburgerMenu from './hamburger-menu';
 import { NavigationLinkProps } from '@/utils/types';
-import { HeaderContext } from '../header-context';
-import { ReactNode } from 'react';
-
-const TestContainer = ({
-  navLinks,
-  children
-}: {
-  navLinks: NavigationLinkProps[];
-  children: ReactNode;
-}) => {
-  return (
-    <HeaderContext.Provider
-      value={{
-        navLinks,
-        profileLinks: []
-      }}
-    >
-      {children}
-    </HeaderContext.Provider>
-  );
-};
 
 describe('HamburgerMenu', () => {
   it('should render all dropdown menu links', () => {
@@ -30,11 +9,7 @@ describe('HamburgerMenu', () => {
       { display: '1', href: '/', authMode: 'both' },
       { display: '2', href: '/', authMode: 'both' }
     ];
-    render(
-      <TestContainer navLinks={navLinks}>
-        <HamburgerMenu />
-      </TestContainer>
-    );
+    render(<HamburgerMenu links={navLinks} />);
     const link1 = screen.getByRole('link', {
       name: navLinks[0].display
     });

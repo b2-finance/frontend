@@ -1,5 +1,5 @@
 /** @jest-environment node */
-// See https://github.com/vercel/next.js/discussions/49530#discussioncomment-5851159
+// See https://github.com/vercel/next.js/discussions/44270#discussioncomment-6576533
 
 import { authRequest } from './auth-request';
 

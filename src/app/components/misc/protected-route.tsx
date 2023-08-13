@@ -1,7 +1,6 @@
-'use client';
-
 import { ReactNode } from 'react';
-import useAppContext from '@/app/app-context';
+import { cookies } from 'next/headers';
+import { USER_ID } from '@/app/bff/auth/auth-request';
 import { default as LoginPage } from '@/app/(routes)/(noAuth)/login/page';
 
 /**
@@ -12,8 +11,6 @@ import { default as LoginPage } from '@/app/(routes)/(noAuth)/login/page';
  * @returns A JSX element.
  */
 export default function ProtectedRoute({ children }: { children: ReactNode }) {
-  const { authenticated } = useAppContext();
-
-  if (!authenticated) return <LoginPage />;
-  else return <>{children}</>;
+  const isAuthenticated = cookies().has(USER_ID);
+  return isAuthenticated ? <>{children}</> : <LoginPage />;
 }

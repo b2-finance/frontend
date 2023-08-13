@@ -2,27 +2,6 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import NavMenu from './nav-menu';
 import { NavigationLinkProps } from '@/utils/types';
-import { HeaderContext } from '../header-context';
-import { ReactNode } from 'react';
-
-const TestContainer = ({
-  navLinks,
-  children
-}: {
-  navLinks: NavigationLinkProps[];
-  children: ReactNode;
-}) => {
-  return (
-    <HeaderContext.Provider
-      value={{
-        navLinks,
-        profileLinks: []
-      }}
-    >
-      {children}
-    </HeaderContext.Provider>
-  );
-};
 
 describe('NavMenu', () => {
   it('should render all links', () => {
@@ -30,11 +9,7 @@ describe('NavMenu', () => {
       { display: '1', href: '/', authMode: 'both' },
       { display: '2', href: '/', authMode: 'both' }
     ];
-    render(
-      <TestContainer navLinks={navLinks}>
-        <NavMenu />
-      </TestContainer>
-    );
+    render(<NavMenu links={navLinks} />);
     const link1 = screen.getByRole('link', {
       name: navLinks[0].display
     });

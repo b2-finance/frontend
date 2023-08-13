@@ -60,6 +60,7 @@ describe('authRequest', () => {
       const statusCode = 400;
       const message = 'Error message.';
       mockFetch = Promise.resolve({ statusCode, message });
+      jest.spyOn(console, 'error').mockImplementation(() => {});
 
       const res = await authRequest({
         path: '/xyz',
@@ -80,6 +81,7 @@ describe('authRequest', () => {
       const statusCode = 400;
       const defaultErrorMessage = 'Error making request.';
       mockFetch = Promise.resolve({ statusCode });
+      jest.spyOn(console, 'error').mockImplementation(() => {});
 
       const res = await authRequest({
         path: '/xyz',
@@ -99,6 +101,7 @@ describe('authRequest', () => {
     async (method: string) => {
       const statusCode = 599;
       mockFetch = Promise.resolve({ statusCode });
+      jest.spyOn(console, 'error').mockImplementation(() => {});
 
       const res = await authRequest({
         path: '/xyz',

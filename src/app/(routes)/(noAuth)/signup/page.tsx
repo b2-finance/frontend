@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import B2Icon from '../../../components/icons/b2-icon';
+import B2Icon from '@/common/icons/b2-icon';
 import SignupForm from './signup-form';
-import routes from '@/utils/routes';
+import routes from '@/common/routes';
 
 /**
  * Displays a signup form.

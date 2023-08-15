@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SignupForm from './signup-form';
 import { SignUpDto, signup } from '@/app/bff-utils/auth-utils';
-import routes from '@/utils/routes';
+import routes from '@/common/routes';
 import userEvent from '@testing-library/user-event';
 
 jest.mock('next/navigation', () => ({
@@ -20,7 +20,7 @@ let mockHandleFieldChange = jest.fn();
 let mockValidateFields = jest.fn();
 
 // See https://stackoverflow.com/questions/65270255/mocking-react-custom-hook-with-jest
-jest.mock('../../../components/hooks/use-form-validation', () => ({
+jest.mock('../../../../common/forms/use-form-validation', () => ({
   __esModule: true,
   default: () => ({
     fieldState: mockFieldState,
@@ -29,7 +29,7 @@ jest.mock('../../../components/hooks/use-form-validation', () => ({
   })
 }));
 
-jest.mock('../../../bff-utils/auth-utils', () => ({
+jest.mock('../../../../bff-utils/auth-utils', () => ({
   signup: jest.fn()
 }));
 

@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import useFormValidation from '@/app/components/hooks/use-form-validation';
-import TextField from '@/app/components/forms/text-field';
-import UserIcon from '../../../components/icons/user-icon';
-import LockIcon from '../../../components/icons/lock-icon';
-import MailIcon from '../../../components/icons/mail-icon';
-import routes from '@/utils/routes';
+import useFormValidation from '@/common/forms/use-form-validation';
+import TextField from '@/common/forms/text-field';
+import UserIcon from '@/common/icons/user-icon';
+import LockIcon from '@/common/icons/lock-icon';
+import MailIcon from '@/common/icons/mail-icon';
+import routes from '@/common/routes';
 import { signup } from '@/app/bff-utils/auth-utils';
 import { useRouter } from 'next/navigation';
 import AuthFormContainer from '../auth-form-container';

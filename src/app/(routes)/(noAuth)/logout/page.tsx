@@ -1,8 +1,8 @@
 'use client';
 
-import B2Icon from '@/app/components/icons/b2-icon';
+import B2Icon from '@/common/icons/b2-icon';
 import { logout } from '@/app/bff-utils/auth-utils';
-import routes from '@/utils/routes';
+import routes from '@/common/routes';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 

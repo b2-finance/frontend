@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SignupPage from './page';
-import routes from '@/utils/routes';
+import routes from '@/common/routes';
 
 jest.mock('next/navigation', () => ({
   useRouter: () => ({

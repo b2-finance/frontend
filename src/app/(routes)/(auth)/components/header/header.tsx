@@ -2,7 +2,7 @@ import NavMenu from './menus/nav-menu';
 import HamburgerMenu from './menus/hamburger-menu';
 import ProfileMenu from './menus/profile-menu';
 import { AuthMode, NavigationLinkProps } from './types';
-import routes from '@/utils/routes';
+import routes from '@/common/routes';
 import { cookies } from 'next/headers';
 import { USER_ID } from '@/app/bff/auth/auth-request';
 

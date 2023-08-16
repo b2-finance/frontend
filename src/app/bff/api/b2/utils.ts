@@ -8,12 +8,21 @@ import { BFF_API_B2 } from '../../paths';
  * @returns A url to the B2 API.
  */
 export const b2Url = (nextUrl: NextURL): string => {
-  return (
-    process.env.B2_ENDPOINT +
-    nextUrl.pathname.replace(BFF_API_B2, '') +
-    '/' +
-    decodeURIComponent(nextUrl.search.replace('?path=', ''))
-  );
+  const base = process.env.B2_ENDPOINT;
+  const path = nextUrl.pathname.replace(BFF_API_B2, '');
+  const search = decodeURIComponent(nextUrl.search.replace('?path=', ''));
+
+  return [base, path, search]
+    .filter((x) => x)
+    .map((x) => {
+      let str = x;
+
+      if (str?.startsWith('/')) str = str.substring(1);
+      if (str?.endsWith('/')) str = str.substring(0, str.length - 1);
+
+      return str;
+    })
+    .join('/');
 };
 
 /**
@@ -23,6 +32,6 @@ export const b2Url = (nextUrl: NextURL): string => {
  * @param path The target path on the B2 API.
  * @returns A url to the BFF endpoint.
  */
-export const bffB2Url = (path: string): string => {
-  return BFF_API_B2 + '?path=' + encodeURIComponent(path);
+export const bffB2Url = (path?: string): string => {
+  return BFF_API_B2 + (path ? '?path=' + encodeURIComponent(path) : '');
 };

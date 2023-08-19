@@ -3,13 +3,13 @@
 
 import { authRequest } from './auth-request';
 
-describe('authRequest', () => {
-  let mockFetch: any;
+const mockJson = jest.fn();
 
+describe('authRequest', () => {
   beforeEach(() => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
-        json: () => mockFetch
+        json: mockJson
       })
     ) as jest.Mock;
   });
@@ -21,7 +21,7 @@ describe('authRequest', () => {
   it.each([['GET'], ['POST']])(
     'should return empty object when %s request succeeds',
     async (method: string) => {
-      mockFetch = Promise.resolve({ statusCode: 200 });
+      mockJson.mockResolvedValue({ statusCode: 200 });
 
       const res = await authRequest({
         path: '/xyz',
@@ -40,7 +40,7 @@ describe('authRequest', () => {
     'should return the response status code when %s request succeeds',
     async (method: string) => {
       const statusCode = 399;
-      mockFetch = Promise.resolve({ statusCode });
+      mockJson.mockResolvedValue({ statusCode });
 
       const res = await authRequest({
         path: '/xyz',
@@ -59,7 +59,7 @@ describe('authRequest', () => {
     async (method: string) => {
       const statusCode = 400;
       const message = 'Error message.';
-      mockFetch = Promise.resolve({ statusCode, message });
+      mockJson.mockResolvedValue({ statusCode, message });
       jest.spyOn(console, 'error').mockImplementation(() => {});
 
       const res = await authRequest({
@@ -80,7 +80,7 @@ describe('authRequest', () => {
     async (method: string) => {
       const statusCode = 400;
       const defaultErrorMessage = 'Error making request.';
-      mockFetch = Promise.resolve({ statusCode });
+      mockJson.mockResolvedValue({ statusCode });
       jest.spyOn(console, 'error').mockImplementation(() => {});
 
       const res = await authRequest({
@@ -100,7 +100,7 @@ describe('authRequest', () => {
     'should return the response status code when %s request fails',
     async (method: string) => {
       const statusCode = 599;
-      mockFetch = Promise.resolve({ statusCode });
+      mockJson.mockResolvedValue({ statusCode });
       jest.spyOn(console, 'error').mockImplementation(() => {});
 
       const res = await authRequest({

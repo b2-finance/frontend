@@ -12,12 +12,9 @@ jest.mock('next/navigation', () => ({
   usePathname: () => ({})
 }));
 
-let mockFieldState = {
-  username: { value: 'username' },
-  password: { value: 'password' }
-};
-let mockHandleFieldChange = jest.fn();
-let mockValidateFields = jest.fn();
+let mockFieldState: any;
+const mockHandleFieldChange = jest.fn();
+const mockValidateFields = jest.fn();
 
 // See https://stackoverflow.com/questions/65270255/mocking-react-custom-hook-with-jest
 jest.mock('../../../../common/forms/use-form-validation', () => ({
@@ -34,6 +31,13 @@ jest.mock('../../../bff-utils/auth-utils', () => ({
 }));
 
 describe('LoginForm', () => {
+  beforeEach(() => {
+    mockFieldState = {
+      username: { value: 'username' },
+      password: { value: 'password' }
+    };
+  });
+
   afterEach(() => {
     jest.restoreAllMocks();
   });

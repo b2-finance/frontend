@@ -12,17 +12,17 @@ jest.mock('next/headers', () => ({
   })
 }));
 
-describe('b2Request', () => {
-  let mockResponseJson: any;
-  let mockResponseHeaders: any;
+const mockJson = jest.fn();
+const mockHeadersGet = jest.fn();
 
+describe('b2Request', () => {
   beforeEach(() => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
         headers: {
-          get: () => mockResponseHeaders
+          get: mockHeadersGet
         },
-        json: () => mockResponseJson
+        json: mockJson
       })
     ) as jest.Mock;
   });
@@ -35,8 +35,8 @@ describe('b2Request', () => {
     'should return the fetched data when %s request succeeds',
     async (method: string) => {
       const data = 123;
-      mockResponseJson = Promise.resolve(data);
-      mockResponseHeaders = 'application/json';
+      mockJson.mockResolvedValue(data);
+      mockHeadersGet.mockReturnValue('application/json');
 
       const req = new NextRequest(new Request(BFF_URL, { method }));
       const res = await b2Request({ request: req });
@@ -52,8 +52,8 @@ describe('b2Request', () => {
       const data = 123;
       const statusCode = 399;
 
-      mockResponseJson = Promise.resolve({ data, statusCode });
-      mockResponseHeaders = 'application/json';
+      mockJson.mockResolvedValue({ data, statusCode });
+      mockHeadersGet.mockReturnValue('application/json');
 
       const req = new NextRequest(new Request(BFF_URL, { method }));
       const res = await b2Request({ request: req });
@@ -67,7 +67,8 @@ describe('b2Request', () => {
     async (method: string) => {
       const statusCode = 599;
 
-      mockResponseJson = Promise.resolve({ statusCode });
+      mockJson.mockResolvedValue({ statusCode });
+      mockHeadersGet.mockReturnValue('application/json');
       jest.spyOn(console, 'error').mockImplementation(() => {});
 
       const req = new NextRequest(new Request(BFF_URL, { method }));
@@ -83,7 +84,8 @@ describe('b2Request', () => {
       const statusCode = 400;
       const message = 'Error!';
 
-      mockResponseJson = Promise.resolve({ statusCode, message });
+      mockJson.mockResolvedValue({ statusCode, message });
+      mockHeadersGet.mockReturnValue('application/json');
       jest.spyOn(console, 'error').mockImplementation(() => {});
 
       const req = new NextRequest(new Request(BFF_URL, { method }));
@@ -100,7 +102,8 @@ describe('b2Request', () => {
       const statusCode = 400;
       const defaultErrorMessage = 'Default error!';
 
-      mockResponseJson = Promise.resolve({ statusCode });
+      mockJson.mockResolvedValue({ statusCode });
+      mockHeadersGet.mockReturnValue('application/json');
       jest.spyOn(console, 'error').mockImplementation(() => {});
 
       const req = new NextRequest(new Request(BFF_URL, { method }));

@@ -29,7 +29,7 @@ jest.mock('../../../../common/forms/use-form-validation', () => ({
   })
 }));
 
-jest.mock('../../../../bff-utils/auth-utils', () => ({
+jest.mock('../../../bff-utils/auth-utils', () => ({
   signup: jest.fn()
 }));
 

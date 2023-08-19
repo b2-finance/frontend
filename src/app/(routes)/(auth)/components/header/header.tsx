@@ -3,8 +3,7 @@ import HamburgerMenu from './menus/hamburger-menu';
 import ProfileMenu from './menus/profile-menu';
 import { AuthMode, NavigationLinkProps } from './types';
 import routes from '@/common/routes';
-import { cookies } from 'next/headers';
-import { USER_ID } from '@/app/bff/auth/auth-request';
+import isLoggedInServer from '../functions/is-logged-in-server';
 
 const ALL_NAV_LINKS: NavigationLinkProps[] = [
   { display: 'Home', href: routes.home, authMode: 'noAuth' },
@@ -47,7 +46,7 @@ const shouldRender = (authMode: AuthMode, authenticated: boolean) => {
  * @returns A JSX Element.
  */
 export default function Header() {
-  const isAuthenticated = cookies().has(USER_ID);
+  const isAuthenticated = isLoggedInServer();
 
   const navLinks = ALL_NAV_LINKS.filter(({ authMode }) =>
     shouldRender(authMode, isAuthenticated)

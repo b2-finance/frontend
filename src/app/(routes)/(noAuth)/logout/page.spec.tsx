@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LogoutPage from './page';
-import { logout } from '@/app/bff-utils/auth-utils';
+import { logout } from '@/app/bff-utils/auth/auth-utils';
 
 jest.useFakeTimers();
 
@@ -13,7 +13,7 @@ jest.mock('next/navigation', () => ({
   })
 }));
 
-jest.mock('../../../bff-utils/auth-utils', () => ({
+jest.mock('../../../bff-utils/auth/auth-utils', () => ({
   logout: jest.fn()
 }));
 

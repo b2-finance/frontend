@@ -1,7 +1,7 @@
 'use client';
 
-import { BFF_API, BFF_AUTH } from '../bff/paths';
-import { ResultHandler } from './utils';
+import { BFF_API, BFF_AUTH } from '../../bff/paths';
+import { ResultHandler } from '../utils';
 
 /**
  * Attributes required to register a new user with the application.

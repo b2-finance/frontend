@@ -1,7 +1,7 @@
 'use client';
 
 import { bffB2Url } from '@/app/bff/api/b2/utils';
-import { refresh } from '../auth-utils';
+import { refresh } from '../auth/auth-utils';
 
 /**
  * Contains the data or errors returned from the B2 BFF request, if any.

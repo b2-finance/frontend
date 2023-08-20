@@ -7,7 +7,7 @@ import UserIcon from '@/common/icons/user-icon';
 import LockIcon from '@/common/icons/lock-icon';
 import Link from 'next/link';
 import routes from '@/common/routes';
-import { login } from '@/app/bff-utils/auth-utils';
+import { login } from '@/app/bff-utils/auth/auth-utils';
 import { usePathname, useRouter } from 'next/navigation';
 import AuthFormContainer from '../auth-form-container';
 

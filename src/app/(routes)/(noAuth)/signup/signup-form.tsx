@@ -7,7 +7,7 @@ import UserIcon from '@/common/icons/user-icon';
 import LockIcon from '@/common/icons/lock-icon';
 import MailIcon from '@/common/icons/mail-icon';
 import routes from '@/common/routes';
-import { signup } from '@/app/bff-utils/auth-utils';
+import { signup } from '@/app/bff-utils/auth/auth-utils';
 import { useRouter } from 'next/navigation';
 import AuthFormContainer from '../auth-form-container';
 

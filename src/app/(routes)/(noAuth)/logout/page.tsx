@@ -1,7 +1,7 @@
 'use client';
 
 import B2Icon from '@/common/icons/b2-icon';
-import { logout } from '@/app/bff-utils/auth-utils';
+import { logout } from '@/app/bff-utils/auth/auth-utils';
 import routes from '@/common/routes';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';

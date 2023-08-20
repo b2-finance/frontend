@@ -1,7 +1,7 @@
 import bffB2Request from './bff-b2-request';
-import * as AuthUtils from '../../bff-utils/auth-utils';
+import * as AuthUtils from '../auth/auth-utils';
 
-jest.mock('../../bff-utils/auth-utils');
+jest.mock('../../bff-utils/auth/auth-utils');
 
 const mockJson = jest.fn();
 let mockStatus: any;

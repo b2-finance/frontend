@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LoginForm from './login-form';
-import { SignInDto, login } from '@/app/bff-utils/auth-utils';
+import { SignInDto, login } from '@/app/bff-utils/auth/auth-utils';
 import routes from '@/common/routes';
 import userEvent from '@testing-library/user-event';
 
@@ -26,7 +26,7 @@ jest.mock('../../../../common/forms/use-form-validation', () => ({
   })
 }));
 
-jest.mock('../../../bff-utils/auth-utils', () => ({
+jest.mock('../../../bff-utils/auth/auth-utils', () => ({
   login: jest.fn()
 }));
 

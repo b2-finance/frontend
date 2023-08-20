@@ -5,7 +5,7 @@ import { AuthMode, NavigationLinkProps } from './types';
 import routes from '@/common/routes';
 import isLoggedInServer from '../functions/is-logged-in-server';
 
-const ALL_NAV_LINKS: NavigationLinkProps[] = [
+export const ALL_NAV_LINKS: NavigationLinkProps[] = [
   { display: 'Home', href: routes.home, authMode: 'noAuth' },
   { display: 'Dashboard', href: routes.dashboard, authMode: 'auth' },
   { display: 'Ledger', href: routes.ledger, authMode: 'auth' },
@@ -13,7 +13,7 @@ const ALL_NAV_LINKS: NavigationLinkProps[] = [
   { display: 'Log In', href: routes.login, authMode: 'noAuth' }
 ];
 
-const ALL_PROFILE_LINKS: NavigationLinkProps[] = [
+export const ALL_PROFILE_LINKS: NavigationLinkProps[] = [
   { display: 'Profile', href: routes.profile, authMode: 'auth' },
   { display: 'Settings', href: routes.settings, authMode: 'auth' },
   { display: 'Log Out', href: routes.logout, authMode: 'auth' }

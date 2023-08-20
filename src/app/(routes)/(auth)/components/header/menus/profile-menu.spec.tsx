@@ -3,6 +3,11 @@ import '@testing-library/jest-dom';
 import ProfileMenu from './profile-menu';
 import { NavigationLinkProps } from '../types';
 
+const AVATAR_TEXT = 'XYZ';
+jest.mock('./profile-menu-avatar', () => () => {
+  return <div>{AVATAR_TEXT}</div>;
+});
+
 describe('ProfileMenu', () => {
   it('should render all dropdown menu links', () => {
     const profileLinks: NavigationLinkProps[] = [
@@ -19,5 +24,11 @@ describe('ProfileMenu', () => {
 
     expect(link1).toBeInTheDocument();
     expect(link2).toBeInTheDocument();
+  });
+
+  it('should render the profile avatar', () => {
+    render(<ProfileMenu links={[]} />);
+    const avatar = screen.getByText(AVATAR_TEXT);
+    expect(avatar).toBeInTheDocument();
   });
 });

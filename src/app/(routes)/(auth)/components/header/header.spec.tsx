@@ -4,7 +4,6 @@ import '@testing-library/jest-dom';
 import Header, { ALL_NAV_LINKS, ALL_PROFILE_LINKS } from './header';
 import * as isLoggedInServer from '../functions/is-logged-in-server';
 import { NavigationLinkProps } from './types';
-import routes from '@/common/routes';
 
 jest.mock('../functions/is-logged-in-server', () => ({
   __esModule: true,

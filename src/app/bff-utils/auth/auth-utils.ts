@@ -1,5 +1,3 @@
-'use client';
-
 import { BFF_API, BFF_AUTH } from '../../bff/paths';
 import { ResultHandler } from '../utils';
 

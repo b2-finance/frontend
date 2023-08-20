@@ -63,6 +63,8 @@ describe('userUtils', () => {
         .spyOn(bffB2Request, 'default')
         .mockResolvedValue({ errors: ['Error!'] });
 
+      jest.spyOn(console, 'error').mockImplementation(() => {});
+
       const actual = await userUtils.updateOne(randomUUID(), updateDto);
       expect(actual).toEqual(false);
     });

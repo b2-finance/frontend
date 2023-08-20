@@ -1,4 +1,4 @@
-import bffB2Request, { BffResponse } from './bff-b2-request';
+import bffB2Request from './bff-b2-request';
 
 /**
  * Contains required attributes for a new user.

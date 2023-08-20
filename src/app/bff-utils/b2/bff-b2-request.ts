@@ -1,5 +1,3 @@
-'use client';
-
 import { bffB2Url } from '@/app/bff/api/b2/utils';
 import { refresh } from '../auth/auth-utils';
 

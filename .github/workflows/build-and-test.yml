@@ -38,11 +38,11 @@ jobs:
       - name: install dependencies
         run: npm ci
 
-      - name: setup dev-test env
+      - name: setup development env
         run: |
-          echo "${{ secrets.ENV_DEV_TEST }}" >> .env.dev-test
+          echo "${{ secrets.ENV_DEVELOPMENT }}" >> .env.development
           mkdir -p ./env
-          mv .env.dev-test ./env
+          mv .env.development ./env
 
       - name: build and test
         run: |

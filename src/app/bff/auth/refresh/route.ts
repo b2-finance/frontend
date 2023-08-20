@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { authRequest, AuthResponse, REFRESH_TOKEN } from '../auth-request';
 

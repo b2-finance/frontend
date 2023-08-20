@@ -1,6 +1,5 @@
 'use client';
 
-import fetchRequest from '@/common/fetch-request';
 import { bffB2Url } from '@/app/bff/api/b2/utils';
 import { refresh } from '../auth-utils';
 
@@ -45,20 +44,17 @@ export default async function bffB2Request({
   let attempts = 2;
 
   while (attempts-- > 0) {
-    const res = await fetchRequest({
-      url: bffB2Url(path),
-      options: {
-        ...options,
-        ...(body && { body: JSON.stringify(body) })
-      }
+    const res = await fetch(bffB2Url(path), {
+      ...options,
+      ...(body && { body: JSON.stringify(body) })
     });
 
-    const { data, errors, status } = res;
+    const { data, errors } = await res.json();
 
     if (errors) {
       console.error('B2 request error:', errors);
 
-      if (attempts > 0 && status === 401) {
+      if (attempts > 0 && res.status === 401) {
         console.log('Attempting to refresh tokens.');
 
         await refresh({

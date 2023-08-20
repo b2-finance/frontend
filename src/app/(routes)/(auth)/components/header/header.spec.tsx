@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-
 import Header, { ALL_NAV_LINKS, ALL_PROFILE_LINKS } from './header';
 import * as isLoggedInServer from '../functions/is-logged-in-server';
 import { NavigationLinkProps } from './types';

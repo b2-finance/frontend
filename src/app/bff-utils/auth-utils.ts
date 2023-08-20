@@ -1,5 +1,6 @@
 'use client';
 
+import fetchRequest from '@/common/fetch-request';
 import { BFF_API, BFF_AUTH } from '../bff/paths';
 import { ResultHandler } from './utils';
 
@@ -31,12 +32,14 @@ export const signup = async ({
   onSuccess,
   onFail
 }: { dto: SignUpDto } & ResultHandler): Promise<void> => {
-  const res = await fetch(BFF_AUTH + '/signup', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(dto)
+  const { errors } = await fetchRequest({
+    url: BFF_AUTH + '/signup',
+    options: {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(dto)
+    }
   });
-  const { errors } = await res.json();
 
   if (errors) onFail(errors);
   else onSuccess();
@@ -53,12 +56,14 @@ export const login = async ({
   onSuccess,
   onFail
 }: { dto: SignInDto } & ResultHandler): Promise<void> => {
-  const res = await fetch(BFF_AUTH + '/login', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(dto)
+  const { errors } = await fetchRequest({
+    url: BFF_AUTH + '/login',
+    options: {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(dto)
+    }
   });
-  const { errors } = await res.json();
 
   if (errors) onFail(errors);
   else onSuccess();
@@ -74,10 +79,9 @@ export const logout = async ({
   onSuccess,
   onFail
 }: ResultHandler): Promise<void> => {
-  const attemptLogout = async () => {
-    const res = await fetch(BFF_API + '/logout');
-    return await res.json();
-  };
+  const attemptLogout = async () =>
+    await fetchRequest({ url: BFF_API + '/logout' });
+
   const { errors } = await attemptLogout();
 
   let retry = false;
@@ -117,8 +121,7 @@ export const refresh = async ({
   onSuccess,
   onFail
 }: ResultHandler): Promise<void> => {
-  const res = await fetch(BFF_AUTH + '/refresh');
-  const { errors } = await res.json();
+  const { errors } = await fetchRequest({ url: BFF_AUTH + '/refresh' });
 
   if (errors) onFail(errors);
   else onSuccess();

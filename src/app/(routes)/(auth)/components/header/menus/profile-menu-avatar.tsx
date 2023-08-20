@@ -1,8 +1,8 @@
 'use client';
 
-import bffB2Request from '@/app/bff-utils/b2/bff-b2-request';
 import useUserContext from '../../user-context';
 import { useEffect, useState } from 'react';
+import userUtils from '@/app/bff-utils/b2/user-utils';
 
 /**
  * Displays the first character of the user's username.
@@ -11,14 +11,18 @@ import { useEffect, useState } from 'react';
  */
 export default function ProfileMenuAvatar() {
   const { userId } = useUserContext();
-  const [username, setUsername] = useState('');
+  const [userInitial, setUserInitial] = useState('');
 
   useEffect(() => {
+    const abort = new AbortController();
+
     (async function () {
-      const { data } = await bffB2Request({ path: '/users/' + userId });
-      data && setUsername(data.username);
+      const { username } = await userUtils.getOne(userId, abort.signal);
+      username && setUserInitial(username?.charAt(0));
     })();
+
+    return () => abort.abort();
   }, [userId]);
 
-  return <>{username?.charAt(0)}</>;
+  return <>{userInitial}</>;
 }

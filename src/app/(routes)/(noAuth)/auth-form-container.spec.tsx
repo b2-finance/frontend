@@ -21,7 +21,7 @@ let authFormContainer = (props?: Partial<AuthFormContainerProps>) => (
   />
 );
 
-describe('AuthFormContainer', () => {
+describe(AuthFormContainer.name, () => {
   it('should render the expected header', () => {
     const title = 'form-title';
 

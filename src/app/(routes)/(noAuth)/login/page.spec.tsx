@@ -10,7 +10,7 @@ jest.mock('next/navigation', () => ({
   usePathname: () => ({})
 }));
 
-describe('LoginPage', () => {
+describe(LoginPage.name, () => {
   it('should render a logo link to the home page', () => {
     render(<LoginPage />);
     const logo = screen.getByRole('link', { name: 'B2' });

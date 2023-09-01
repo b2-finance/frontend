@@ -4,7 +4,7 @@ import DropdownMenu from './dropdown-menu';
 import { NavigationLinkProps } from '../types';
 import userEvent from '@testing-library/user-event';
 
-describe('DropdownMenu', () => {
+describe(DropdownMenu.name, () => {
   it('should render a list of links', () => {
     const links: NavigationLinkProps[] = [
       { display: '1', href: '/', authMode: 'both' },

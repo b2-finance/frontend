@@ -7,7 +7,7 @@ import UserIcon from '@/common/icons/user-icon';
 import LockIcon from '@/common/icons/lock-icon';
 import MailIcon from '@/common/icons/mail-icon';
 import routes from '@/common/routes';
-import { signup } from '@/app/bff-utils/auth/auth-utils';
+import signup from '@/app/api/auth/signup';
 import { useRouter } from 'next/navigation';
 import AuthFormContainer from '../auth-form-container';
 
@@ -37,7 +37,7 @@ export default function SignupForm() {
   });
 
   const router = useRouter();
-  const [errors, setErrors] = useState<string[] | null>(null);
+  const [errors, setErrors] = useState<string[]>();
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async () => {
@@ -54,18 +54,17 @@ export default function SignupForm() {
         password: { value: password }
       } = fieldState;
 
-      await signup({
-        dto: {
-          email: email.toLowerCase(),
-          username: username.toLowerCase(),
-          password
-        },
-        onSuccess: () => router.push(routes.dashboard),
-        onFail: (errors) => {
-          setErrors(errors);
-          setSubmitting(false);
-        }
+      const { data, errors } = await signup({
+        email: email.toLowerCase(),
+        username: username.toLowerCase(),
+        password
       });
+
+      if (data) router.push(routes.dashboard);
+      else {
+        setErrors(errors);
+        setSubmitting(false);
+      }
     }
   };
 

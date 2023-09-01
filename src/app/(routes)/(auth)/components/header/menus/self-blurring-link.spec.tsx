@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import SelfBlurringLink from './self-blurring-link';
 
-describe('SelfBlurringLink', () => {
+describe(SelfBlurringLink.name, () => {
   it('should render a link', () => {
     render(<SelfBlurringLink href="/">Hello</SelfBlurringLink>);
     const link = screen.getByRole('link');

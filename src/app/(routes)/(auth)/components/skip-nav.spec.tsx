@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SkipNav from './skip-nav';
 
-describe('SkipNav', () => {
+describe(SkipNav.name, () => {
   it('should render an anchor element', () => {
     render(<SkipNav mainId="test-main-id" />);
     const anchor = screen.getByRole('link');

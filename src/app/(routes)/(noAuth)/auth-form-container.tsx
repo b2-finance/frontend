@@ -44,7 +44,7 @@ export interface AuthFormContainerProps {
   /**
    * Errors on the form.
    */
-  errors: string[] | null;
+  errors?: string[];
   /**
    * True when the form is in the process of submitting.
    */

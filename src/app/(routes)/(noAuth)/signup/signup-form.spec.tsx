@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SignupForm from './signup-form';
-import { SignUpDto, signup } from '@/app/bff-utils/auth/auth-utils';
+import * as signup from '@/app/api/auth/signup';
+import { SignupDto } from '@/app/api/types';
 import routes from '@/common/routes';
 import userEvent from '@testing-library/user-event';
 
@@ -25,11 +26,12 @@ jest.mock('../../../../common/forms/use-form-validation', () => ({
   })
 }));
 
-jest.mock('../../../bff-utils/auth/auth-utils', () => ({
-  signup: jest.fn()
+jest.mock('../../../api/auth/signup', () => ({
+  __esModule: true,
+  default: jest.fn()
 }));
 
-describe('SignupForm', () => {
+describe(SignupForm.name, () => {
   beforeEach(() => {
     mockFieldState = {
       email: { value: 'email' },
@@ -82,8 +84,9 @@ describe('SignupForm', () => {
   it('should call signup when submit clicked', async () => {
     const user = userEvent.setup();
     mockValidateFields.mockReturnValue(null);
+    jest.spyOn(signup, 'default').mockResolvedValue({});
 
-    const signUpDto: SignUpDto = {
+    const signupDto: SignupDto = {
       email: mockFieldState.email.value,
       username: mockFieldState.username.value,
       password: mockFieldState.password.value
@@ -96,12 +99,12 @@ describe('SignupForm', () => {
     const password = screen.getByPlaceholderText('Password');
     const submit = screen.getByRole('button', { name: 'Create Account' });
 
-    await user.type(email, signUpDto.email);
-    await user.type(username, signUpDto.username);
-    await user.type(password, signUpDto.password);
+    await user.type(email, signupDto.email);
+    await user.type(username, signupDto.username);
+    await user.type(password, signupDto.password);
     await user.click(submit);
 
-    expect(signup).toHaveBeenCalledTimes(1);
+    expect(signup.default).toHaveBeenCalledTimes(1);
   });
 
   it('should display error when invalid field(s) are submitted', async () => {
@@ -124,16 +127,17 @@ describe('SignupForm', () => {
   it('should ignore case for email/username and respect case for password', async () => {
     const user = userEvent.setup();
     mockValidateFields.mockReturnValue(null);
+    jest.spyOn(signup, 'default').mockResolvedValue({});
 
-    const signUpDto: SignUpDto = {
+    const signupDto: SignupDto = {
       email: 'CaseInsensitiveEmail',
       username: 'CaseInsensitiveUserName',
       password: 'CaseSensitivePassWord'
     };
     mockFieldState = {
-      email: { value: signUpDto.email },
-      username: { value: signUpDto.username },
-      password: { value: signUpDto.password }
+      email: { value: signupDto.email },
+      username: { value: signupDto.username },
+      password: { value: signupDto.password }
     };
 
     render(<SignupForm />);
@@ -143,19 +147,15 @@ describe('SignupForm', () => {
     const password = screen.getByPlaceholderText('Password');
     const submit = screen.getByRole('button', { name: 'Create Account' });
 
-    await user.type(email, signUpDto.email);
-    await user.type(username, signUpDto.username);
-    await user.type(password, signUpDto.password);
+    await user.type(email, signupDto.email);
+    await user.type(username, signupDto.username);
+    await user.type(password, signupDto.password);
     await user.click(submit);
 
-    expect(signup).toHaveBeenCalledWith({
-      dto: {
-        email: signUpDto.email.toLowerCase(),
-        username: signUpDto.username.toLowerCase(),
-        password: signUpDto.password
-      },
-      onFail: expect.any(Function),
-      onSuccess: expect.any(Function)
+    expect(signup.default).toHaveBeenCalledWith({
+      email: signupDto.email.toLowerCase(),
+      username: signupDto.username.toLowerCase(),
+      password: signupDto.password
     });
   });
 });

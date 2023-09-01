@@ -1,7 +1,7 @@
 'use client';
 
 import B2Icon from '@/common/icons/b2-icon';
-import { logout } from '@/app/bff-utils/auth/auth-utils';
+import logout from '@/app/api/auth/logout';
 import routes from '@/common/routes';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -26,12 +26,10 @@ export default function LogoutPage() {
 
   useEffect(() => {
     (async function () {
-      await logout({
-        onSuccess: () => {
-          setTimeout(() => router.push(routes.login), TIMER * 1000);
-        },
-        onFail: () => router.back()
-      });
+      const res = await logout();
+
+      if (res.errors || !res) router.back();
+      else setTimeout(() => router.push(routes.login), TIMER * 1000);
     })();
   }, []);
 

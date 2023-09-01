@@ -40,9 +40,9 @@ jobs:
 
       - name: setup development env
         run: |
-          echo "${{ secrets.ENV_DEVELOPMENT }}" >> .env.development
+          echo "${{ secrets.ENV_LOCAL }}" >> .env.local
           mkdir -p ./env
-          mv .env.development ./env
+          mv .env.local ./env
 
       - name: build and test
         run: |

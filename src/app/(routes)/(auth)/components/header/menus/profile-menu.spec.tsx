@@ -8,7 +8,7 @@ jest.mock('./profile-menu-avatar', () => () => {
   return <div>{AVATAR_TEXT}</div>;
 });
 
-describe('ProfileMenu', () => {
+describe(ProfileMenu.name, () => {
   it('should render all dropdown menu links', () => {
     const profileLinks: NavigationLinkProps[] = [
       { display: '1', href: '/', authMode: 'both' },

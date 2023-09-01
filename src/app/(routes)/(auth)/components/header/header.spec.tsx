@@ -13,7 +13,7 @@ jest.mock('./menus/profile-menu-avatar', () => () => {
   return <div />;
 });
 
-describe('Header', () => {
+describe(Header.name, () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });

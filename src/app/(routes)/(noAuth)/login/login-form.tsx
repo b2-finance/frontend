@@ -7,7 +7,7 @@ import UserIcon from '@/common/icons/user-icon';
 import LockIcon from '@/common/icons/lock-icon';
 import Link from 'next/link';
 import routes from '@/common/routes';
-import { login } from '@/app/bff-utils/auth/auth-utils';
+import login from '@/app/api/auth/login';
 import { usePathname, useRouter } from 'next/navigation';
 import AuthFormContainer from '../auth-form-container';
 
@@ -30,7 +30,7 @@ export default function LoginForm() {
 
   const router = useRouter();
   const pathname = usePathname();
-  const [errors, setErrors] = useState<string[] | null>(null);
+  const [errors, setErrors] = useState<string[]>();
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async () => {
@@ -46,20 +46,18 @@ export default function LoginForm() {
         password: { value: password }
       } = fieldState;
 
-      await login({
-        dto: {
-          username: username.toLowerCase(),
-          password
-        },
-        onSuccess: () => {
-          if (pathname === routes.login) router.push(routes.dashboard);
-          else router.refresh();
-        },
-        onFail: (errors) => {
-          setErrors(errors);
-          setSubmitting(false);
-        }
+      const { data, errors } = await login({
+        username: username.toLowerCase(),
+        password
       });
+
+      if (data) {
+        if (pathname === routes.login) router.push(routes.dashboard);
+        else router.refresh();
+      } else {
+        setErrors(errors);
+        setSubmitting(false);
+      }
     }
   };
 

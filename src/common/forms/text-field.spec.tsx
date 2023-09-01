@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import TextField from './text-field';
 import userEvent from '@testing-library/user-event';
 
-describe('TextField', () => {
+describe(TextField.name, () => {
   it('should render an input field with expected placeholder', () => {
     const placeholder = 'test-placeholder';
     render(<TextField type={'text'} placeholder={placeholder} />);

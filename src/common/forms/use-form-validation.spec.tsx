@@ -28,7 +28,7 @@ function TestComponent({ props }: { props: FieldValidations }) {
   );
 }
 
-describe('useFormValidation', () => {
+describe(useFormValidation.name, () => {
   describe('fieldState/handleFieldChange', () => {
     it('should update the field state when user types', async () => {
       const user = userEvent.setup();

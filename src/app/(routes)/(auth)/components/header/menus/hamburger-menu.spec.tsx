@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import HamburgerMenu from './hamburger-menu';
 import { NavigationLinkProps } from '../types';
 
-describe('HamburgerMenu', () => {
+describe(HamburgerMenu.name, () => {
   it('should render all dropdown menu links', () => {
     const navLinks: NavigationLinkProps[] = [
       { display: '1', href: '/', authMode: 'both' },

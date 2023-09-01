@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LoginForm from './login-form';
-import { SignInDto, login } from '@/app/bff-utils/auth/auth-utils';
+import * as login from '@/app/api/auth/login';
+import { LoginDto } from '@/app/api/types';
 import routes from '@/common/routes';
 import userEvent from '@testing-library/user-event';
 
@@ -26,11 +27,12 @@ jest.mock('../../../../common/forms/use-form-validation', () => ({
   })
 }));
 
-jest.mock('../../../bff-utils/auth/auth-utils', () => ({
-  login: jest.fn()
+jest.mock('../../../api/auth/login', () => ({
+  __esModule: true,
+  default: jest.fn()
 }));
 
-describe('LoginForm', () => {
+describe(LoginForm.name, () => {
   beforeEach(() => {
     mockFieldState = {
       username: { value: 'username' },
@@ -82,8 +84,9 @@ describe('LoginForm', () => {
   it('should call login when submit clicked', async () => {
     const user = userEvent.setup();
     mockValidateFields.mockReturnValue(null);
+    jest.spyOn(login, 'default').mockResolvedValue({});
 
-    const signInDto: SignInDto = {
+    const loginDto: LoginDto = {
       username: mockFieldState.username.value,
       password: mockFieldState.password.value
     };
@@ -94,11 +97,11 @@ describe('LoginForm', () => {
     const password = screen.getByPlaceholderText('Password');
     const submit = screen.getByRole('button', { name: 'Log In' });
 
-    await user.type(username, signInDto.username);
-    await user.type(password, signInDto.password);
+    await user.type(username, loginDto.username);
+    await user.type(password, loginDto.password);
     await user.click(submit);
 
-    expect(login).toHaveBeenCalledTimes(1);
+    expect(login.default).toHaveBeenCalledTimes(1);
   });
 
   it('should display error when invalid field(s) are submitted', async () => {
@@ -121,14 +124,15 @@ describe('LoginForm', () => {
   it('should ignore case for username and respect case for password', async () => {
     const user = userEvent.setup();
     mockValidateFields.mockReturnValue(null);
+    jest.spyOn(login, 'default').mockResolvedValue({});
 
-    const signInDto: SignInDto = {
+    const loginDto: LoginDto = {
       username: 'CaseInsensitiveUserName',
       password: 'CaseSensitivePassWord'
     };
     mockFieldState = {
-      username: { value: signInDto.username },
-      password: { value: signInDto.password }
+      username: { value: loginDto.username },
+      password: { value: loginDto.password }
     };
 
     render(<LoginForm />);
@@ -137,17 +141,13 @@ describe('LoginForm', () => {
     const password = screen.getByPlaceholderText('Password');
     const submit = screen.getByRole('button', { name: 'Log In' });
 
-    await user.type(username, signInDto.username);
-    await user.type(password, signInDto.password);
+    await user.type(username, loginDto.username);
+    await user.type(password, loginDto.password);
     await user.click(submit);
 
-    expect(login).toHaveBeenCalledWith({
-      dto: {
-        username: signInDto.username.toLowerCase(),
-        password: signInDto.password
-      },
-      onFail: expect.any(Function),
-      onSuccess: expect.any(Function)
+    expect(login.default).toHaveBeenCalledWith({
+      username: loginDto.username.toLowerCase(),
+      password: loginDto.password
     });
   });
 });

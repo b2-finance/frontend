@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import NavMenu from './nav-menu';
 import { NavigationLinkProps } from '../types';
 
-describe('NavMenu', () => {
+describe(NavMenu.name, () => {
   it('should render all links', () => {
     const navLinks: NavigationLinkProps[] = [
       { display: '1', href: '/', authMode: 'both' },

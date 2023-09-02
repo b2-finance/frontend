@@ -9,7 +9,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
     <ProtectedRoute>
       <SkipNav mainId={mainId} />
       <Header />
-      <main id={mainId} className="flex flex-col items-center">
+      <main id={mainId} className="flex flex-col grow items-center">
         {children}
       </main>
     </ProtectedRoute>

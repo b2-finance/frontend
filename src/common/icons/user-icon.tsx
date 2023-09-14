@@ -1,16 +1,14 @@
-export interface UserIconProps {
-  className?: string;
-}
+import { ICON_DEFAULT_CSS, ICON_DEFAULT_STROKE, IconProps } from './utilities';
 
-export default function UserIcon({ className }: UserIconProps) {
+export default function UserIcon({ className }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      strokeWidth={1.5}
+      strokeWidth={ICON_DEFAULT_STROKE}
       stroke="currentColor"
-      className={className ?? 'w-6 h-6'}
+      className={className ?? ICON_DEFAULT_CSS}
     >
       <path
         strokeLinecap="round"

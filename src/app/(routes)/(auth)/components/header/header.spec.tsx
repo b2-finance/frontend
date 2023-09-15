@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Header, { ALL_NAV_LINKS, ALL_PROFILE_LINKS } from './header';
+import Header, { PROFILE_LINKS } from './header';
 import * as isLoggedInServer from '../functions/is-logged-in-server';
-import { NavigationLinkProps } from './types';
+import { HeaderLinkProps } from './types';
 
 jest.mock('../functions/is-logged-in-server', () => ({
   __esModule: true,
@@ -18,47 +18,50 @@ describe(Header.name, () => {
     jest.restoreAllMocks();
   });
 
-  it('should render all expected links when user is logged in', async () => {
-    const countLinks = (links: NavigationLinkProps[]) =>
+  it('should render all expected links when user is logged in', () => {
+    const countLinks = (links: HeaderLinkProps[]) =>
       links.reduce(
         (a, b) => a + (['auth', 'both'].includes(b.authMode) ? 1 : 0),
         0
       );
 
-    // ALL_NAV_LINKS are displayed twice, on hamburger menu and nav menu.
-    const expectedLinkCount =
-      countLinks(ALL_NAV_LINKS) * 2 + countLinks(ALL_PROFILE_LINKS);
+    const expectedLinkCount = countLinks(PROFILE_LINKS);
 
     jest.spyOn(isLoggedInServer, 'default').mockReturnValue(true);
 
     render(<Header />);
 
-    const links = await screen.findAllByRole('link');
+    const links = screen.queryAllByRole('link');
     expect(links.length).toEqual(expectedLinkCount);
   });
 
-  it('should render all expected links when user is logged out', async () => {
-    const countLinks = (links: NavigationLinkProps[]) =>
+  it('should render all expected links when user is logged out', () => {
+    const countLinks = (links: HeaderLinkProps[]) =>
       links.reduce(
         (a, b) => a + (['noAuth', 'both'].includes(b.authMode) ? 1 : 0),
         0
       );
 
-    // ALL_NAV_LINKS are displayed twice, on hamburger menu and nav menu.
-    const expectedLinkCount =
-      countLinks(ALL_NAV_LINKS) * 2 + countLinks(ALL_PROFILE_LINKS);
+    const expectedLinkCount = countLinks(PROFILE_LINKS);
 
     jest.spyOn(isLoggedInServer, 'default').mockReturnValue(false);
 
     render(<Header />);
 
-    const links = await screen.findAllByRole('link');
+    const links = screen.queryAllByRole('link');
     expect(links.length).toEqual(expectedLinkCount);
   });
 
-  // TODO: Implement these.
-  // it('should hide the hamburger menu when screen size is >= tablet size', () => {});
-  // it('should show the hamburger menu when screen size is < tablet size', () => {});
-  // it('should hide the nav menu when screen size is < tablet size', () => {});
-  // it('should show the nav menu when screen size is >= tablet size', () => {});
+  it('should render its children prop', () => {
+    const childText = 'Hello world!';
+
+    render(
+      <Header>
+        <>{childText}</>
+      </Header>
+    );
+
+    const child = screen.getByText(childText);
+    expect(child).toBeInTheDocument();
+  });
 });

@@ -12,7 +12,7 @@ export type AuthMode = 'auth' | 'noAuth' | 'both';
 /**
  * Extension of next/link LinkProps to provide a display name for the link.
  */
-export type NavigationLinkProps = LinkProps & {
+export type HeaderLinkProps = LinkProps & {
   /**
    * The label displayed on the screen.
    */

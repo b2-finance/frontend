@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ProfileMenu from './profile-menu';
-import { NavigationLinkProps } from '../types';
+import { HeaderLinkProps } from '../types';
 
 const AVATAR_TEXT = 'XYZ';
 jest.mock('./profile-menu-avatar', () => () => {
@@ -10,7 +10,7 @@ jest.mock('./profile-menu-avatar', () => () => {
 
 describe(ProfileMenu.name, () => {
   it('should render all dropdown menu links', () => {
-    const profileLinks: NavigationLinkProps[] = [
+    const profileLinks: HeaderLinkProps[] = [
       { display: '1', href: '/', authMode: 'both' },
       { display: '2', href: '/', authMode: 'both' }
     ];

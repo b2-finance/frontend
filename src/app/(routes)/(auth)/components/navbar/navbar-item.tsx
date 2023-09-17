@@ -35,7 +35,7 @@ export default function NavbarItem({
             'group-hover:transition-all',
             'group-hover:visible',
             'group-hover:opacity-100',
-            'group-hover:delay-500',
+            'group-hover:delay-200',
             'group-hover:duration-500',
             'group-focus:visible',
             'group-focus:opacity-100',

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import SelfBlurringLink from './self-blurring-link';
-import { NavigationLinkProps } from '../types';
+import { HeaderLinkProps } from '../types';
 
 /**
  * Props for the {@link DropdownMenu} component.
@@ -25,7 +25,7 @@ export interface DropdownMenuProps {
   /**
    * Navigation links.
    */
-  links?: NavigationLinkProps[];
+  links?: HeaderLinkProps[];
   /**
    * Aligns the dropdown menu to the right of the button.
    *

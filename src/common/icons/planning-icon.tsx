@@ -1,6 +1,6 @@
 import { ICON_DEFAULT_CSS, ICON_DEFAULT_STROKE, IconProps } from './utilities';
 
-export default function LockIcon({ className }: IconProps) {
+export default function PlanningIcon({ className }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -13,7 +13,7 @@ export default function LockIcon({ className }: IconProps) {
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+        d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"
       />
     </svg>
   );

@@ -1,12 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import DropdownMenu from './dropdown-menu';
-import { NavigationLinkProps } from '../types';
+import { HeaderLinkProps } from '../types';
 import userEvent from '@testing-library/user-event';
 
 describe(DropdownMenu.name, () => {
   it('should render a list of links', () => {
-    const links: NavigationLinkProps[] = [
+    const links: HeaderLinkProps[] = [
       { display: '1', href: '/', authMode: 'both' },
       { display: '2', href: '/', authMode: 'both' }
     ];
@@ -17,7 +17,7 @@ describe(DropdownMenu.name, () => {
   });
 
   it('should render all links', () => {
-    const links: NavigationLinkProps[] = [
+    const links: HeaderLinkProps[] = [
       { display: '1', href: '/', authMode: 'both' },
       { display: '2', href: '/', authMode: 'both' }
     ];
@@ -31,7 +31,7 @@ describe(DropdownMenu.name, () => {
   });
 
   it('should render the button', () => {
-    const links: NavigationLinkProps[] = [
+    const links: HeaderLinkProps[] = [
       { display: '1', href: '/', authMode: 'both' },
       { display: '2', href: '/', authMode: 'both' }
     ];
@@ -42,7 +42,7 @@ describe(DropdownMenu.name, () => {
   });
 
   it('should not render a menu after clicked if there are no links', async () => {
-    const links: NavigationLinkProps[] = [];
+    const links: HeaderLinkProps[] = [];
     const user = userEvent.setup();
 
     render(<DropdownMenu button={<button>Hello</button>} links={links} />);

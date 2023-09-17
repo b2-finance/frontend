@@ -1,12 +1,12 @@
 import DropdownMenu from './dropdown-menu';
-import { NavigationLinkProps } from '../types';
+import { HeaderLinkProps } from '../types';
 import ProfileMenuAvatar from './profile-menu-avatar';
 
 /**
  * Props for the {@link ProfileMenu} component.
  */
 export interface ProfileMenuProps {
-  links: NavigationLinkProps[];
+  links: HeaderLinkProps[];
 }
 
 /**

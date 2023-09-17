@@ -54,7 +54,7 @@ export default function DropdownMenu({
         {button}
       </label>
       {links?.length ? (
-        <ul className="dropdown-content z-[1] menu menu-sm mt-3 p-2 shadow bg-base-100 rounded-box">
+        <ul className="dropdown-content z-[1] menu menu-sm mt-3 p-2 shadow bg-base-100 text-base-content rounded-box">
           {links?.map(({ display, href }) => (
             <li key={display}>
               <SelfBlurringLink href={href}>{display}</SelfBlurringLink>

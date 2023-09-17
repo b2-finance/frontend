@@ -35,7 +35,7 @@ interface NavbarItemProperties
   sub?: NavbarSubmenuLinks[];
 }
 
-const NAVBAR_ITEMS: NavbarItemProperties[] = [
+export const NAVBAR_ITEMS: NavbarItemProperties[] = [
   {
     href: routes.dashboard,
     icon: <DashboardIcon />,
